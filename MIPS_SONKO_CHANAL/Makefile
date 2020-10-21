@@ -1,11 +1,11 @@
-all: main.o fonction.o traduction.o
-	gcc -o emul-mips main.o fonction.o traduction.o
+all: main.o function.o translation.o
+	gcc -o emul-mips main.o function.o translation.o
 
 main.o: code/main.c
 	gcc -c code/main.c -Wall
 
-fonction.o: code/fonction.c code/fonction.h
-	gcc -c code/fonction.c -Wall
+function.o: code/function.c code/function.h
+	gcc -c code/function.c -Wall
 
-traduction.o: code/traduction.c code/traduction.h
-	gcc -c code/traduction.c -Wall
+translation.o: code/translation.c code/translation.h
+	gcc -c code/translation.c -Wall
