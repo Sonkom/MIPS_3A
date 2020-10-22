@@ -2,6 +2,6 @@
 #include "function.h"
 
 int main(int argc, char const *argv[]) {
-  printf("%d\n", decode_reg("16"));
+  printf("%d\n", str_to_int("-1",0,4));
   return 0;
 }

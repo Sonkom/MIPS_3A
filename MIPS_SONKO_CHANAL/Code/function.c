@@ -32,23 +32,34 @@ int decode_reg(char* reg){
   }
   return reg_code;
 }*/
-int str_to_int(char* str){
-  int n = strlen(str);
-  int power = 1;
-  int result = 0;
-  for(int i=n-1; i>=0; i--){
-    result += power * ( (*(reg+i)) - '0');
-    power *= 10;
+
+//Convertie la chaine de caractère str[d:f] en un entier
+int str_to_int(char* str, int d, int f){
+  int power=1, result=-1, sign=1;
+  if(f<d){
+    printf("ERREUR : Indice incohérent\n");
+  }else{
+    result = 1;
+
+    if(f>strlen(str)) f=strlen(str);
+
+    if(*str+d == '-'){
+      d++;
+      sign=-1;
+    }
+
+    for(int i=f; i>=d && result!=-1; i--){
+      printf("result : %d\n", result);
+      result += power * ( (*(str+i)) - '0');
+      power *= 10;
+      if(*(str+i)-'0' < 0 || *(str+i)-'9' > 9){
+        printf("ERREUR : Impossible de convertir en entier : Caractère \n");
+        result = -1;
+      }
+    }
+
+    if(result != -1) result *= sign;
   }
+
   return result;
-}
-
-
-int decode_reg(char* reg){
-  int reg_code = str_to_int(reg);
-  if(reg_code > 31){
-    printf("ERREUR : Registre inconnu\n");
-    reg_code = -1;
-  }
-  return reg_code;
 }
