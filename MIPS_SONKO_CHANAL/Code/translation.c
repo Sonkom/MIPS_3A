@@ -1,7 +1,7 @@
 //Code concernant la traduction des instructions MIPS en leurs formes hexadécimales
 #include "translation.h"
 
-
+/*
 int translate(char* line){
   int i=1;
   while(*(line+i) != ' ') i++;
@@ -10,7 +10,7 @@ int translate(char* line){
   if(strcmp(instruction, "ADD")){
 
   }
-}
+}*/
 
 
 int translate_immediat(int code, int r0, int r1, int imm){

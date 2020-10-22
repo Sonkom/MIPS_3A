@@ -1,7 +1,9 @@
 #include "translation.h"
+#include "function.h"
 
 int main(int argc, char const *argv[]) {
-  printf("%x\n", translate_ADD(15,16,17));
+  char test[] = "$zerfs";
+  printf("%d\n", decode_reg(test));
 
   return 0;
 }

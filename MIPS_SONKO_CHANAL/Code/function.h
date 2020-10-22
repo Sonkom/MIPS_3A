@@ -3,4 +3,4 @@
 #include <stdlib.h>
 #include <string.h>
 
-int translate(char* ligne);
+int decode_reg(char* reg);
