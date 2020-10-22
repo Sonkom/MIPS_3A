@@ -2,8 +2,6 @@
 #include "function.h"
 
 int main(int argc, char const *argv[]) {
-  char test[] = "$zerfs";
-  printf("%d\n", decode_reg(test));
-
+  printf("%d\n", decode_reg("16"));
   return 0;
 }

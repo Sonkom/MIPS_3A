@@ -1,6 +1,6 @@
 //Code concernant les fonctions utiles supplémentaires
 #include "function.h"
-
+/*
 int decode_reg(char* reg){
   int reg_code = -1;
   if(!strcmp(reg,"$zero")){
@@ -29,6 +29,21 @@ int decode_reg(char* reg){
     reg_code = 31;
   }else{
     printf("ERREUR : Registre inconnu\n");
+  }
+  return reg_code;
+}*/
+
+int decode_reg(char* reg){
+  int n = strlen(reg);
+  int puissance = 1;
+  int reg_code = 0;
+  for(int i=n-1; i>=0; i--){
+    reg_code += puissance * ( (*(reg+i)) - '0');
+    puissance *= 10;
+  }
+  if(reg_code > 31){
+    printf("ERREUR : Registre inconnu\n");
+    reg_code = -1;
   }
   return reg_code;
 }
