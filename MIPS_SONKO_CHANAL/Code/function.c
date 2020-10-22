@@ -32,15 +32,20 @@ int decode_reg(char* reg){
   }
   return reg_code;
 }*/
+int str_to_int(char* str){
+  int n = strlen(str);
+  int power = 1;
+  int result = 0;
+  for(int i=n-1; i>=0; i--){
+    result += power * ( (*(reg+i)) - '0');
+    power *= 10;
+  }
+  return result;
+}
+
 
 int decode_reg(char* reg){
-  int n = strlen(reg);
-  int puissance = 1;
-  int reg_code = 0;
-  for(int i=n-1; i>=0; i--){
-    reg_code += puissance * ( (*(reg+i)) - '0');
-    puissance *= 10;
-  }
+  int reg_code = str_to_int(reg);
   if(reg_code > 31){
     printf("ERREUR : Registre inconnu\n");
     reg_code = -1;

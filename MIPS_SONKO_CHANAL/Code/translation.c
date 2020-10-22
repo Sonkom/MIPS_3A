@@ -3,16 +3,22 @@
 
 
 int translate(char* line){
+  int result;
   int i=1;
   while(*(line+i) != ' ') i++;
 
   char *instruction=malloc(sizeof(char)*i);
   strncpy(instruction, line, i);
 
+  if(!strcmp(instruction, "NOP")){
+    result = translate_NOP();
+  }else{
 
+  }
 
 
   free(instruction);
+  return result;
 }
 
 
