@@ -9,8 +9,8 @@ int main(int argc, char *argv[]) {
   FILE *file_source, *file_result;
   char *name_source, *name_result;
   char character, read_line[LENLINE];
-  int index = 0, success = 1, buffer, is_comment = 0;
-  int line_hexa;
+  int index = 0, success = 1, is_comment = 0;
+  unsigned int line_hexa, buffer;
 
   printf("%8x\n",0xFF);
 
@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
             read_line[index] = character;
             index++;
           }
-          
+
       } else {
         read_line[index] = '\0';
         is_comment = 0;
