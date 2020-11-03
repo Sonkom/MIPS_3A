@@ -5,7 +5,7 @@ int translate(char* line){
   int result,inst_len,i=0,j=0,end_op;
   int op[4];
 
-  while(*(line+i) != ' ' || *(line+i+1) != '\0') i++;
+  while(*(line+i) != ' ' && *(line+i+1) != '\0') i++;
   inst_len=i;
 
   while(*(line+i) != '\0'){
