@@ -22,31 +22,31 @@ int translate_direct(int special, int r0, int r1, int r2, int r3, int code);
 int translate_jump(int code, int adress);
 
 /*--------- DIRECT ---------*/
-int translate_ADD(int rs, int rt, int rd);
-int translate_AND(int rs, int rt, int rd);
+int translate_ADD(int rd, int rs, int rt);
+int translate_AND(int rd, int rs, int rt);
 int translate_JR(int rs, int hint);
 int translate_MFHI(int rd);
 int translate_MFLO(int rd);
 int translate_MULT(int rs, int rt);
-int translate_NOP(void);
-int translate_OR(int rs, int rt, int rd);
+int translate_NOP();
+int translate_OR(int rd, int rs, int rt);
 int translate_DIV(int rs, int rt);
-int translate_ROTR(int ri, int rt, int rd, int sa);
-int translate_SLL(int rt, int rd, int sa);
-int translate_SLT(int rs, int rt, int rd);
-int translate_SRL(int r0, int rt, int rd, int sa);
-int translate_SUB(int rs, int rt, int rd);
-int translate_XOR(int rs, int rt, int rd);
+int translate_ROTR(int rd, int rt, int sa);
+int translate_SLL(int rd, int rt, int sa);
+int translate_SLT(int rd, int rs, int rt);
+int translate_SRL(int rd, int rt, int sa);
+int translate_SUB(int rd, int rs, int rt);
+int translate_XOR(int rd, int rs, int rt);
 
 /*--------- IMMÉDIAT ---------*/
-int translate_ADDI(int rs, int rt, int imm);
+int translate_ADDI(int rt, int rs, int imm);
 int translate_BEQ(int rs, int rt, int offset);
 int translate_BGTZ(int rs, int offset);
 int translate_BLEZ(int rs, int offset);
 int translate_BNE(int rs, int rt, int offset);
-int translate_LUI(int rt, int imm);
-int translate_SW(int base, int rt, int offset);
-int translate_LW(int base, int rt, int offset);
+int translate_LUI(int rt, int imm){;
+int translate_SW(int rt, int offset, int base);
+int translate_LW(int rt, int offset, int base);
 
 /*--------- JUMP ---------*/
 int translate_J(int instr_index);

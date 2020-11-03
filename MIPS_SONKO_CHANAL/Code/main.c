@@ -5,8 +5,8 @@
 
 
 int main(int argc, char *argv[]) {
-
-  FILE *file_source, *file_result;
+ 
+  /*FILE *file_source, *file_result;
   char *name_source, *name_result;
   char character, read_line[LENLINE];
   int index = 0, success = 1, is_comment = 0;
@@ -72,7 +72,7 @@ int main(int argc, char *argv[]) {
     fclose(file_result);
     fclose(file_source);
 
-  }
+  }*/
 
   return 0;
 }

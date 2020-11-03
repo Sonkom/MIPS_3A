@@ -31,7 +31,7 @@ int translate(char* line){
     result = translate_AND(op[0],op[1],op[2]);
 
   }else if(!strncmp(line, "JR", inst_len)){
-    result = translate_JR(op[0],op[1]);
+    result = translate_JR(op[0],0);
 
   }else if(!strncmp(line, "MFHI", inst_len)){
     result = translate_MFHI(op[0]);
@@ -120,11 +120,11 @@ int translate_jump(int code, int adress){
 }
 
 /*--------- DIRECT ---------*/
-int translate_ADD(int rs, int rt, int rd){
+int translate_ADD(int rd, int rs, int rt){
   return translate_direct(0,rs,rt,rd,0,0b100000);
 }
 
-int translate_AND(int rs, int rt, int rd){
+int translate_AND(int rd, int rs, int rt){
   return translate_direct(0,rs,rt,rd,0,0b100100);
 }
 
@@ -148,40 +148,40 @@ int translate_NOP(){
   return translate_direct(0,0,0,0,0,0);
 }
 
-int translate_OR(int rs, int rt, int rd){
-  return translate_direct(0,rs,rt,0,0,0b100101);
+int translate_OR(int rd, int rs, int rt){
+  return translate_direct(0,rs,rt,rd,0,0b100101);
 }
 
 int translate_DIV(int rs, int rt){
   return translate_direct(0,rs,rt,0,0,0b011010);
 }
 
-int translate_ROTR(int ri, int rt, int rd, int sa){
-  return translate_direct(0,ri,rt,rd,sa,0b000010);
+int translate_ROTR(int rd, int rt, int sa){
+  return translate_direct(0,1,rt,rd,sa,0b000010);
 }
 
-int translate_SLL(int rt, int rd, int sa){
+int translate_SLL(int rd, int rt, int sa){
   return translate_direct(0,0,rt,rd,sa,0b000000);
 }
 
-int translate_SLT(int rs, int rt, int rd){
+int translate_SLT(int rd, int rs, int rt){
   return translate_direct(0,rs,rt,rd,0,0b101010);
 }
 
-int translate_SRL(int r0, int rt, int rd, int sa){
-  return translate_direct(0,r0,rt,rd,sa,0b000010);
+int translate_SRL(int rd, int rt, int sa){
+  return translate_direct(0,0,rt,rd,sa,0b000010);
 }
 
-int translate_SUB(int rs, int rt, int rd){
+int translate_SUB(int rd, int rs, int rt){
   return translate_direct(0,rs,rt,rd,0,0b100010);
 }
 
-int translate_XOR(int rs, int rt, int rd){
+int translate_XOR(int rd, int rs, int rt){
   return translate_direct(0,rs,rt,rd,0,0b100110);
 }
 
 /*--------- IMMÉDIAT ---------*/
-int translate_ADDI(int rs, int rt, int imm){
+int translate_ADDI(int rt, int rs, int imm){
   return translate_immediat(0b001000, rs, rt, imm);
 }
 
@@ -205,11 +205,11 @@ int translate_LUI(int rt, int imm){
   return translate_immediat(0b001111, 0, rt, imm);
 }
 
-int translate_SW(int base, int rt, int offset){
+int translate_SW(int rt, int offset, int base){
   return translate_immediat(0b101011, base, rt, offset);
 }
 
-int translate_LW(int base, int rt, int offset){
+int translate_LW(int rt, int offset, int base){
   return translate_immediat(0b100011, base, rt, offset);
 }
 
