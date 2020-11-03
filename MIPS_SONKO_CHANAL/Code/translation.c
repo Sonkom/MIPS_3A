@@ -9,6 +9,7 @@ int translate(char* line){
 
   while(*(line+i) != '\0'){
 
+    
   }
 
   if(!strncmp(line, "NOP",inst_len)){

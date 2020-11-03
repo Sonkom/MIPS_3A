@@ -8,7 +8,7 @@ int str_to_int(char* str, int d, int f){
     printf("ERREUR : Indice incohérent\n");
   }else{
 
-    if(f>strlen(str)) f=strlen(str)-1;
+    if(f>strlen(str)-1) f=strlen(str)-1;
 
     if(*(str+d) == '-'){
       d++;
