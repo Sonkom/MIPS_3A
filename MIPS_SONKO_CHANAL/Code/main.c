@@ -46,11 +46,11 @@ int main(int argc, char *argv[]) {
         else break;
       }
     }
+    
+    fclose(file_result);
+    fclose(file_source);
+
   }
-
-  fclose(file_result);
-  fclose(file_source);
-
 
   return 0;
 }
