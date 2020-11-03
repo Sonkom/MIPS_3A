@@ -3,8 +3,8 @@
 
 int translate(char* line){
   int result,inst_len,i=0,j=0,end_op;
-
   int op[4];
+
   while(*(line+i) != ' ' || *(line+i+1) != '\0') i++;
   inst_len=i;
 
@@ -23,14 +23,85 @@ int translate(char* line){
 
   if(!strncmp(line, "NOP",inst_len)){
     result = translate_NOP();
+
   }else if(!strncmp(line, "ADD", inst_len)){
-
     result = translate_ADD(op[0],op[1],op[2]);
+
+  }else if(!strncmp(line, "AND", inst_len)){
+    result = translate_AND(op[0],op[1],op[2]);
+
+  }else if(!strncmp(line, "JR", inst_len)){
+    result = translate_JR(op[0],op[1]);
+
+  }else if(!strncmp(line, "MFHI", inst_len)){
+    result = translate_MFHI(op[0]);
+
+  }else if(!strncmp(line, "MFLO", inst_len)){
+    result = translate_MFLO(op[0]);
+
+  }else if(!strncmp(line, "MULT", inst_len)){
+    result = translate_MULT(op[0],op[1]);
+
+  }else if(!strncmp(line, "OR", inst_len)){
+    result = translate_OR(op[0],op[1],op[2]);
+
+  }else if(!strncmp(line, "DIV", inst_len)){
+    result = translate_DIV(op[0],op[1]);
+
+  }else if(!strncmp(line, "ROTR", inst_len)){
+    result = translate_ROTR(op[0],op[1],op[2],op[3]);
+
+  }else if(!strncmp(line, "SLL", inst_len)){
+    result = translate_SLL(op[0],op[1],op[2]);
+
+  }else if(!strncmp(line, "SLT", inst_len)){
+    result = translate_SLT(op[0],op[1],op[2]);
+
+  }else if(!strncmp(line, "SRL", inst_len)){
+    result = translate_SLL(op[0],op[1],op[2],op[3]);
+
+  }else if(!strncmp(line, "SUB", inst_len)){
+    result = translate_SLL(op[0],op[1],op[2]);
+
+  }else if(!strncmp(line, "XOR", inst_len)){
+    result = translate_XOR(op[0],op[1],op[2]);
+
+  }else if(!strncmp(line, "ADDI", inst_len)){
+    result = translate_ADDI(op[0],op[1],op[2]);
+
+  }else if(!strncmp(line, "BEQ", inst_len)){
+    result = translate_BEQ(op[0],op[1],op[2]);
+
+  }else if(!strncmp(line, "BGTZ", inst_len)){
+    result = translate_BGTZ(op[0],op[1]);
+
+  }else if(!strncmp(line, "BLEZ", inst_len)){
+    result = translate_BLEZ(op[0],op[1]);
+
+  }else if(!strncmp(line, "BNE", inst_len)){
+    result = translate_BNE(op[0],op[1],op[2]);
+
+  }else if(!strncmp(line, "LUI", inst_len)){
+    result = translate_LUI(op[0],op[1],op[2]);
+
+  }else if(!strncmp(line, "SW", inst_len)){
+    result = translate_SW(op[0],op[1],op[2]);
+
+  }else if(!strncmp(line, "LW", inst_len)){
+    result = translate_LW(op[0],op[1],op[2]);
+
+  }else if(!strncmp(line, "J", inst_len)){
+    result = translate_J(op[0]);
+
+  }else if(!strncmp(line, "JAL", inst_len)){
+    result = translate_JAL(op[0]);
+
+  }else if(!strncmp(line, "SYSCALL", inst_len)){
+    result = translate_SYSCALL(op[0]);
+  }else{
+    printf("%ERREUR : Opération inconnu\n");
+    result = -1; //Cas d'erreur, il est impossible d'avoir 0xFFFFFFF0 dans les autres cas d'où l'utilisation de -1 
   }
-
-
-
-
 
   return result;
 }
