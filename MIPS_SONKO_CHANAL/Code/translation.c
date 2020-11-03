@@ -3,20 +3,26 @@
 
 int translate(char* line){
   int result,inst_len,i=0,j=0,end_op;
-  int op[4];
+  int op[3];
 
   while(*(line+i) != ' ' && *(line+i+1) != '\0') i++;
   inst_len=i;
 
   while(*(line+i) != '\0'){
     if(*(line+i)-'0' >= 0 && *(line+i)-'9' <= 9){
-      end_op = find_char_r(line,',', i,strlen(line)-1);
 
-      if(end_op == -1) end_op = strlen(line);
+      end_op = find_char_r(line,',', i,strlen(line)-1);
+      if(end_op == -1){
+        end_op = find_char_r(line,'(', i,strlen(line)-1);
+        if(end_op == -1){
+          end_op = find_char_r(line,')', i,strlen(line)-1);
+          if(end_op == -1) end_op = strlen(line);
+        }
+      }
+
       op[j]=str_to_int(line, i, end_op-1);
-      printf("%d\n",op[j] );
       j++;
-      i=find_char_r(line,',', i,strlen(line)-1);
+      i=end_op;
     }else
       i++;
   }
@@ -49,7 +55,7 @@ int translate(char* line){
     result = translate_DIV(op[0],op[1]);
 
   }else if(!strncmp(line, "ROTR", inst_len)){
-    result = translate_ROTR(op[0],op[1],op[2],op[3]);
+    result = translate_ROTR(op[0],op[1],op[2]);
 
   }else if(!strncmp(line, "SLL", inst_len)){
     result = translate_SLL(op[0],op[1],op[2]);
@@ -58,7 +64,7 @@ int translate(char* line){
     result = translate_SLT(op[0],op[1],op[2]);
 
   }else if(!strncmp(line, "SRL", inst_len)){
-    result = translate_SRL(op[0],op[1],op[2],op[3]);
+    result = translate_SRL(op[0],op[1],op[2]);
 
   }else if(!strncmp(line, "SUB", inst_len)){
     result = translate_SUB(op[0],op[1],op[2]);

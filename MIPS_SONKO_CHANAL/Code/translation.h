@@ -4,13 +4,6 @@
 #include <string.h>
 #include "function.h"
 
-/*
-  Type de code :
-  - Immediat  : ADDI, BEQ, BGTZ, BLEZ, BNE, LUI, LW, SW
-  - Direct : ADD, AND, JR, MFHI, MFLO, MULT, NOP, OR, SLL, DIV, ROTR, SLL, SLT, SRL, SUB, XOR
-  - Jump : J, JAL
-  - ? : SYSCALL
-*/
 
 int translate(char* line);
 
@@ -44,7 +37,7 @@ int translate_BEQ(int rs, int rt, int offset);
 int translate_BGTZ(int rs, int offset);
 int translate_BLEZ(int rs, int offset);
 int translate_BNE(int rs, int rt, int offset);
-int translate_LUI(int rt, int imm){;
+int translate_LUI(int rt, int imm);
 int translate_SW(int rt, int offset, int base);
 int translate_LW(int rt, int offset, int base);
 

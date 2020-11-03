@@ -5,15 +5,12 @@
 
 
 int main(int argc, char *argv[]) {
- 
-  /*FILE *file_source, *file_result;
+
+  FILE *file_source, *file_result;
   char *name_source, *name_result;
   char character, read_line[LENLINE];
   int index = 0, success = 1, is_comment = 0;
   unsigned int line_hexa, buffer;
-
-  printf("%8x\n",0xFF);
-
 
   if (argc < 3) printf("ERREUR : Arguments manquants\n");
   else {
@@ -51,7 +48,6 @@ int main(int argc, char *argv[]) {
 
         if (index != 0) {
           index = 0;
-
           line_hexa = translate(read_line);
           if (line_hexa != -1){
               buffer = line_hexa;
@@ -68,11 +64,10 @@ int main(int argc, char *argv[]) {
       }
     }
 
-    printf("success = %d\n",success);
     fclose(file_result);
     fclose(file_source);
 
-  }*/
+  }
 
   return 0;
 }
