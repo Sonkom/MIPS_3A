@@ -2,21 +2,30 @@
 #include "translation.h"
 
 int translate(char* line){
-  int result,inst_len,i=0,j=0;
+  int result,inst_len,i=0,j=0,end_op;
+
   int op[4];
-  while(*(line+i) != ' ') i++;
+  while(*(line+i) != ' ' || *(line+i+1) != '\0') i++;
   inst_len=i;
 
   while(*(line+i) != '\0'){
+    if(*(line+i)-'0' >= 0 && *(line+i)-'9' <= 9){
+      end_op = find_char_r(line,',', i,strlen(line)-1);
 
-    
+      if(end_op == -1) end_op = strlen(line);
+      op[j]=str_to_int(line, i, end_op-1);
+      printf("%d\n",op[j] );
+      j++;
+      i=find_char_r(line,',', i,strlen(line)-1);
+    }else
+      i++;
   }
 
   if(!strncmp(line, "NOP",inst_len)){
     result = translate_NOP();
   }else if(!strncmp(line, "ADD", inst_len)){
 
-    //result = translate_ADD()
+    result = translate_ADD(op[0],op[1],op[2]);
   }
 
 
