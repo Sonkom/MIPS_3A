@@ -41,8 +41,9 @@ int main(int argc, char *argv[]) {
         index = 0;
 
         line_hexa = translate(read_line);
-
-        fprintf(file_result, "%x\n",line_hexa);
+        if (line_hexa != -1)
+            fprintf(file_result, "%x\n",line_hexa);
+        else break;
       }
     }
   }
