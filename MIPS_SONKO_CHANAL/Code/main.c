@@ -52,8 +52,6 @@ int main(int argc, char *argv[]) {
         if (index != 0) {
           index = 0;
 
-          //printf("%s\n",read_line);
-
           line_hexa = translate(read_line);
           if (line_hexa != -1){
               buffer = line_hexa;
