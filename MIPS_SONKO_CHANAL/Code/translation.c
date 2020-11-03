@@ -1,25 +1,24 @@
 //Code concernant la traduction des instructions MIPS en leurs formes hexadécimales
 #include "translation.h"
 
-void get_n_operand(char* line, int* operand, int n){
-  while(*(line+i) != ' ') i++;
-}
-
 int translate(char* line){
-  int operand[4]={-1,-1,-1,-1};
-  int result;
-  int i=1,j=0,inst_len;
+  int result,inst_len,i=0,j=0;
+  int op[4];
   while(*(line+i) != ' ') i++;
   inst_len=i;
+
+  while(*(line+i) != '\0'){
+
+  }
 
   if(!strncmp(line, "NOP",inst_len)){
     result = translate_NOP();
   }else if(!strncmp(line, "ADD", inst_len)){
-    char* str =
-    result = translate_ADD()
+
+    //result = translate_ADD()
   }
 
-  }
+
 
 
 
