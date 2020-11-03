@@ -3,13 +3,13 @@ all: main.o function.o translation.o
 	rm *.o
 
 main.o: Code/main.c
-	gcc -c Code/main.c -Wall
+	gcc -g -c Code/main.c -Wall
 
 function.o: Code/function.c Code/function.h
-	gcc -c Code/function.c -Wall
+	gcc -g -c Code/function.c -Wall
 
 translation.o: Code/translation.c Code/translation.h
-	gcc -c Code/translation.c -Wall
+	gcc -g -c Code/translation.c -Wall
 
 clear :
 	rm *.o

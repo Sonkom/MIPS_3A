@@ -34,11 +34,12 @@ int main(int argc, char *argv[]) {
     while (!feof(file_source) && success) {
       fscanf(file_source, "%c", &character);
 
-      if(character != '\n'){
+      if(character != '\n' && character != '\r'){
         read_line[index] = character;
         index++;
       } else {
         read_line[index] = '\0';
+
 
         if (index != 0) {
           index = 0;
