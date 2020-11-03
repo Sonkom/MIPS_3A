@@ -9,8 +9,10 @@ int main(int argc, char *argv[]) {
   FILE *file_source, *file_result;
   char *name_source, *name_result;
   char character, read_line[LENLINE];
-  int index = 0, success = 1;
+  int index = 0, success = 1, buffer;
   int line_hexa;
+
+  printf("%8x\n",0xFF);
 
 
   if (argc < 3) printf("ERREUR : Arguments manquants\n");
@@ -47,9 +49,17 @@ int main(int argc, char *argv[]) {
           //printf("%s\n",read_line);
 
           line_hexa = translate(read_line);
-          if (line_hexa != -1)
+          if (line_hexa != -1){
+              buffer = line_hexa;
+              while ((buffer < 0x10000000) && (index < 7)) {
+                fprintf(file_result, "%x",0);
+                buffer = buffer << 4;
+                index++;
+              }
               fprintf(file_result, "%x\n",line_hexa);
+          }
           else success = 0;
+          index = 0;
         }
       }
     }
