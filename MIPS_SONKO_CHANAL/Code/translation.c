@@ -58,10 +58,10 @@ int translate(char* line){
     result = translate_SLT(op[0],op[1],op[2]);
 
   }else if(!strncmp(line, "SRL", inst_len)){
-    result = translate_SLL(op[0],op[1],op[2],op[3]);
+    result = translate_SRL(op[0],op[1],op[2],op[3]);
 
   }else if(!strncmp(line, "SUB", inst_len)){
-    result = translate_SLL(op[0],op[1],op[2]);
+    result = translate_SUB(op[0],op[1],op[2]);
 
   }else if(!strncmp(line, "XOR", inst_len)){
     result = translate_XOR(op[0],op[1],op[2]);
@@ -82,7 +82,7 @@ int translate(char* line){
     result = translate_BNE(op[0],op[1],op[2]);
 
   }else if(!strncmp(line, "LUI", inst_len)){
-    result = translate_LUI(op[0],op[1],op[2]);
+    result = translate_LUI(op[0],op[1]);
 
   }else if(!strncmp(line, "SW", inst_len)){
     result = translate_SW(op[0],op[1],op[2]);
@@ -99,8 +99,8 @@ int translate(char* line){
   }else if(!strncmp(line, "SYSCALL", inst_len)){
     result = translate_SYSCALL(op[0]);
   }else{
-    printf("%ERREUR : Opération inconnu\n");
-    result = -1; //Cas d'erreur, il est impossible d'avoir 0xFFFFFFF0 dans les autres cas d'où l'utilisation de -1 
+    printf("ERREUR : Opération inconnu\n");
+    result = -1; //Cas d'erreur, il est impossible d'avoir 0xFFFFFFF0 dans les autres cas d'où l'utilisation de -1
   }
 
   return result;
