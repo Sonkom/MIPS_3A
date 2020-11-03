@@ -9,8 +9,9 @@ int main(int argc, char *argv[]) {
   FILE *file_source, *file_result;
   char *name_source, *name_result;
   char character, read_line[LENLINE];
-  int index = 0;
+  int index = 0, success = 1;
   int line_hexa;
+
 
   if (argc < 3) printf("ERREUR : Arguments manquants\n");
   else {
@@ -30,7 +31,7 @@ int main(int argc, char *argv[]) {
       exit(1);
     }
 
-    while (!feof(file_source)) {
+    while (!feof(file_source) && success) {
       fscanf(file_source, "%c", &character);
 
       if(character != '\n'){
@@ -38,15 +39,20 @@ int main(int argc, char *argv[]) {
         index++;
       } else {
         read_line[index] = '\0';
-        index = 0;
 
-        line_hexa = translate(read_line);
-        if (line_hexa != -1)
-            fprintf(file_result, "%x\n",line_hexa);
-        else break;
+        if (index != 0) {
+          index = 0;
+
+          //printf("%s\n",read_line);
+
+          line_hexa = translate(read_line);
+          if (line_hexa != -1)
+              fprintf(file_result, "%x\n",line_hexa);
+          else success = 0;
+        }
       }
     }
-    
+
     fclose(file_result);
     fclose(file_source);
 
