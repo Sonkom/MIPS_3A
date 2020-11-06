@@ -102,8 +102,6 @@ int translate(char* line){
   }else if(!strncmp(line, "JAL", inst_len)){
     result = translate_JAL(op[0]);
 
-  }else if(!strncmp(line, "SYSCALL", inst_len)){
-    result = translate_SYSCALL(op[0]);
   }else{
     printf("ERREUR : Opération inconnu\n");
     result = -1; //Cas d'erreur, il est impossible d'avoir 0xFFFFFFF0 dans les autres cas d'où l'utilisation de -1
@@ -226,9 +224,4 @@ int translate_J(int instr_index){
 
 int translate_JAL(int instr_index){
   return translate_jump(0b000011, instr_index);
-}
-
-/*--------- ? ---------*/
-int translate_SYSCALL(int code){
-  return (code << 6) + 0b001100;
 }

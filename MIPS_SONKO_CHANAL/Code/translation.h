@@ -44,6 +44,3 @@ int translate_LW(int rt, int offset, int base);
 /*--------- JUMP ---------*/
 int translate_J(int instr_index);
 int translate_JAL(int instr_index);
-
-/*--------- ? ---------*/
-int translate_SYSCALL(int code);
