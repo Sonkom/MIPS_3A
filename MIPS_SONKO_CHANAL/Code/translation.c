@@ -102,6 +102,66 @@ int translate(char* line){
   }else if(!strncmp(line, "JAL", inst_len)){
     result = translate_JAL(op[0]);
 
+  }else if(!strncmp(line, "ADDIU", inst_len)){
+    result = translate_ADDIU(op[0],op[1],op[3]);
+
+  }else if(!strncmp(line, "ADDU", inst_len)){
+    result = translate_ADDU(op[0],op[1],op[3]);
+
+  }else if(!strncmp(line, "ANDI", inst_len)){
+    result = translate_ANDI(op[0],op[1],op[3]);
+
+  }else if(!strncmp(line, "BGEZ", inst_len)){
+    result = translate_BGEZ(op[0],op[1]);
+
+  }else if(!strncmp(line, "BGEZAL", inst_len)){
+    result = translate_BGEZAL(op[0],op[1]);
+
+  }else if(!strncmp(line, "BLTZ", inst_len)){
+    result = translate_BLTZ(op[0],op[1]);
+
+  }else if(!strncmp(line, "BLTZAL", inst_len)){
+    result = translate_BLTZAL(op[0],op[1]);
+
+  }else if(!strncmp(line, "DIVU", inst_len)){
+    result = translate_DIVU(op[0],op[1]);
+
+  }else if(!strncmp(line, "LB", inst_len)){
+    result = translate_LB(op[0],op[1],op[2]);
+
+  }else if(!strncmp(line, "MULTU", inst_len)){
+    result = translate_MULTU(op[0],op[1]);
+
+  }else if(!strncmp(line, "ORI", inst_len)){
+    result = translate_ORI(op[0],op[1],op[2]);
+
+  }else if(!strncmp(line, "SB", inst_len)){
+    result = translate_SB(op[0],op[1],op[2]);
+
+  }else if(!strncmp(line, "SLLV", inst_len)){
+    result = translate_SLLV(op[0],op[1],op[2]);
+
+  }else if(!strncmp(line, "SLTI", inst_len)){
+    result = translate_SLTI(op[0],op[1],op[2]);
+
+  }else if(!strncmp(line, "SLTIU", inst_len)){
+    result = translate_SLTIU(op[0],op[1],op[2]);
+
+  }else if(!strncmp(line, "SLTU", inst_len)){
+    result = translate_SLTU(op[0],op[1],op[2]);
+
+  }else if(!strncmp(line, "SRA", inst_len)){
+    result = translate_SRA(op[0],op[1],op[2]);
+
+  }else if(!strncmp(line, "SRLV", inst_len)){
+    result = translate_SRLV(op[0],op[1],op[2]);
+
+  }else if(!strncmp(line, "SUBU", inst_len)){
+    result = translate_SUBU(op[0],op[1],op[2]);
+
+  }else if(!strncmp(line, "XORI", inst_len)){
+    result = translate_XORI(op[0],op[1],op[2]);
+
   }else{
     printf("ERREUR : Opération inconnu\n");
     result = -1; //Cas d'erreur, il est impossible d'avoir 0xFFFFFFF0 dans les autres cas d'où l'utilisation de -1
@@ -224,4 +284,85 @@ int translate_J(int instr_index){
 
 int translate_JAL(int instr_index){
   return translate_jump(0b000011, instr_index);
+}
+
+/*--------- OPT ---------*/
+int translate_ADDIU(int rt, int rs, int imm){
+  return translate_immediat(0b001001,rs,rt,imm);
+}
+
+int translate_ADDU(int rd, int rs, int rt){
+  return translate_direct(0,rs,rt,rt,0,0b100001);
+}
+
+int translate_ANDI(int rt, int rs, int imm){
+  return translate_immediat(0b001100,rs,rt,imm);
+}
+
+int translate_BGEZ(int rs, int offset){
+  return translate_immediat(0b000001,rs,1,offset);
+}
+
+int translate_BGEZAL(int rs, int offset){
+  return translate_immediat(0b000001,rs,0b10001,offset);
+}
+
+int translate_BLTZ(int rs, int offset){
+  return translate_immediat(0b000001,rs,0,offset);
+}
+
+int translate_BLTZAL(int rs, int offset){
+  return translate_immediat(0b000001,rs,0b10000,offset);
+}
+
+int translate_DIVU(int rs, int rt){
+  return translate_direct(0,rs,rt,0,0,0b011011);
+}
+
+int translate_LB(int rt, int offset, int rs){
+  return translate_immediat(0b100000,rs,rt,offset);
+}
+
+int translate_MULTU(int rs, int rt){
+  return translate_direct(0,rs,rt,0,0,0b011001);
+}
+
+int translate_ORI(int rt, int rs, int imm){
+  return translate_immediat(0b001101,rs,rt,imm);
+}
+
+int translate_SB(int rt, int offset, int rs){
+  return translate_immediat(0b101000,rs,rt,offset);
+}
+
+int translate_SLLV(int rd, int rt, int rs){
+  return translate_direct(0,rs,rt,rd,0,0b000100);
+}
+
+int translate_SLTI(int rt, int rs,int imm){
+  return translate_immediat(0b001010,rs,rt,imm);
+}
+
+int translate_SLTIU(int rt, int rs,int imm){
+  return translate_immediat(0b001011,rs,rt,imm);
+}
+
+int translate_SLTU(int rd, int rs, int rt){
+  return translate_direct(0,rs,rt,rd,0,0b101011);
+}
+
+int translate_SRA(int rd, int rt, int sa){
+  return translate_direct(0,0,rt,rd,sa,0b000011);
+}
+
+int translate_SRLV(int rd, int rt, int rs){
+  return translate_direct(0,rs,rt,rd,0,0b000110);
+}
+
+int translate_SUBU(int rd, int rs, int rt){
+  return translate_direct(0,rs,rt,rd,0,0b100011);
+}
+
+int translate_XORI(int rt, int rs, int imm){
+  return translate_immediat(0b001110,rs,rt,imm);
 }

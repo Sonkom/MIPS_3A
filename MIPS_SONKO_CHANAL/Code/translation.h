@@ -44,3 +44,25 @@ int translate_LW(int rt, int offset, int base);
 /*--------- JUMP ---------*/
 int translate_J(int instr_index);
 int translate_JAL(int instr_index);
+
+/*--------- OPT ---------*/
+int translate_ADDIU(int rt, int rs, int imm);
+int translate_ADDU(int rd, int rs, int rt);
+int translate_ANDI(int rt, int rs, int imm);
+int translate_BGEZ(int rs, int offset);
+int translate_BGEZAL(int rs, int offset);
+int translate_BLTZ(int rs, int offset);
+int translate_BLTZAL(int rs, int offset);
+int translate_DIVU(int rs, int rt);
+int translate_LB(int rt, int offset, int rs);
+int translate_MULTU(int rs, int rt);
+int translate_ORI(int rt, int rs, int imm);
+int translate_SB(int rt, int offset, int rs);
+int translate_SLLV(int rd, int rt, int rs);
+int translate_SLTI(int rt, int rs, int imm);
+int translate_SLTIU(int rt, int rs, int imm);
+int translate_SLTU(int rd, int rs, int rt);
+int translate_SRA(int rd, int rt, int sa);
+int translate_SRLV(int rd, int rt, int rs);
+int translate_SUBU(int rd, int rs, int rt);
+int translate_XORI(int rt, int rs, int imm);
