@@ -18,7 +18,7 @@ typedef instruction* program;
 
 program init_program(void); //Crée et initalise la liste chaînée des instructions
 
-instruction* add_instruct(program prog);  //ajoute une instruction à la liste chaînée, retourne l'adresse de la case correspondant à l'instruction ajoutée
+instruction* add_instruct(program prog); //ajoute une instruction à la liste chaînée, retourne l'adresse de la case correspondant à l'instruction ajoutée
 
 void free_prog(program prog); //Supprime la liste chapinée des instructions pour libérer la mémoire
 

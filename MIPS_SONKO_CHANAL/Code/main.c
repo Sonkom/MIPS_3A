@@ -8,7 +8,10 @@ int main(int argc, char *argv[]) {
   char *name_source, *name_result;
   program prog;
 
-  if (argc < 3) printf("ERREUR : Arguments manquants\n");
+  if (argc != 3) {
+    printf("ERREUR : Nombre d'arguments non valide\n");
+    printf("Il faut nom_du_fichier_source + nom_du_fichier_résultant (dans cet ordre là)\n");
+  }
   else {
 
     name_source = *(argv+1);
