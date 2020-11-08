@@ -1,7 +1,4 @@
 //Code concernant la traduction des instructions MIPS en leurs formes hexadécimales
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "function.h"
 
 
