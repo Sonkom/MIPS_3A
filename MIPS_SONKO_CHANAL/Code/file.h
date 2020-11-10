@@ -10,7 +10,7 @@ typedef struct instruction instruction;
 struct instruction {
   unsigned int address; /* Addresse de l'instruction */
   char line[LENLINE] ; /* contenue de la ligne */
-  int line_hexa; /* traduction hexadécimal de la ligne */
+  unsigned int line_hexa; /* traduction hexadécimal de l'instruction */
   instruction* next ; /* adresse du successeur */
 };
 

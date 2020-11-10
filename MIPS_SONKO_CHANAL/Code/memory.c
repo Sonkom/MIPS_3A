@@ -96,3 +96,11 @@ void print_registers(){
     if((i%4==3 && i != 0) || i+1==NBR_REGISTERS) printf("\n");
   }
 }
+
+int read_register(int index_register){
+  return registers[index_register];
+}
+
+void write_register(int index_register, int value){
+  registers[index_register] = value;
+}

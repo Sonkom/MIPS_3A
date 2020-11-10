@@ -1,6 +1,4 @@
-#include "file.h"
-#include "function.h"
-#include "translation.h"
+#include "execution.h"
 
 
 int main(int argc, char *argv[]) {

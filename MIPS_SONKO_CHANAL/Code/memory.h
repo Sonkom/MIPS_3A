@@ -59,3 +59,7 @@ int* pc; /* PROGRAM COUNTER */
 void init_registers(void);
 
 void print_registers(void);
+
+int read_register(int index_register);
+
+void write_register(int index_register, int value);
