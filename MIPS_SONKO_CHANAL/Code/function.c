@@ -38,3 +38,19 @@ int find_char_r(char* str, char c, int d, int f){
   }
   return position;
 }
+
+void test_and_hexified(char** name_source, char** name_result){
+  int len_source = strlen(*name_source);
+  int len_result = strlen(*name_result);
+
+  char* str1 = (char *)malloc(sizeof(char)*(len_source+7));
+  char* str2 = (char *)malloc(sizeof(char)*(len_result+10));
+
+  strcpy(str1, "tests/");
+  strcpy(str2, "hexified/");
+  strcat(str1,*name_source);
+  strcat(str2,*name_result);
+
+  *name_source = str1;
+  *name_result = str2;
+}
