@@ -1,3 +1,3 @@
-//Gère les exécutions d'instruction dans le programme
+//Gère le processeur (registre + exécution d'instruction)
 
 #include "memory.h"
