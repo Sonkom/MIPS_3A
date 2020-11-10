@@ -1,3 +1,5 @@
+// Gère la lecture du programme dans un fichier en entrée, et l'écriture du code hexadécimal dans un fichier en sortie
+
 #include "translation.h"
 #include "function.h"
 
