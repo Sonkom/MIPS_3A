@@ -1,5 +1,6 @@
 //Code concernant la traduction des instructions MIPS en leurs formes hexadécimales
 #include "translation.h"
+#include <stdint.h>
 
 int translate(char* line){
   int result,inst_len,i=0,j=0,end_op;
@@ -9,7 +10,7 @@ int translate(char* line){
   inst_len=i;
 
   while(*(line+i) != '\0'){
-    if(*(line+i)-'0' >= 0 && *(line+i)-'9' <= 9){
+    if((*(line+i)-'0' >= 0 && *(line+i)-'9' <= 9) || *(line+i) == '-'){
 
       end_op = find_char_r(line,',', i,strlen(line)-1);
       if(end_op == -1){
@@ -171,7 +172,10 @@ int translate(char* line){
 }
 
 
-int translate_immediat(int code, int r0, int r1, int imm){
+int translate_immediat(int code, int arg1, int arg2, int arg3){
+  int8_t r0 = arg1,
+         r1 = arg2;
+  int16_t imm = arg3;
   return (code << 26) + (r0 << 21) + (r1 << 16) + imm;
 }
 
