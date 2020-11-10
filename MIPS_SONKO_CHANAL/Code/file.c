@@ -34,11 +34,12 @@ void free_prog(program prog){
 void print_prog(program prog) {
   program prog_printer = prog->next;
 
-  printf("Affichage du programme :\n");
+  printf("*** Prrogram loaded - Ready to be executed ***\n\n");
   while(prog_printer != NULL) {
     printf("      %.8x %.8x : { %s }\n",prog_printer->address, prog_printer->line_hexa ,prog_printer->line);
     prog_printer = prog_printer->next;
   }
+  printf("\n\n");
 }
 
 /* ------ LECTURE + ÉCRITURE DE FICHIER ------ */

@@ -1,12 +1,11 @@
-#include "memory.h"
+#include "file.h"
+#include "function.h"
+#include "translation.h"
 
 
 int main(int argc, char *argv[]) {
 
-  init_registers();
-  print_registers();
-
-/*  char *name_source, *name_result;
+  char *name_source, *name_result;
   program prog;
 
   if (argc != 2) printf("ERREUR : Nombre d'arguments non valide => Il nous faut que le fichier source\n");
@@ -19,14 +18,14 @@ int main(int argc, char *argv[]) {
 
 
     read_file(name_source, prog);
-    print_prog(prog);
-
     translate_to_hexa(prog);
-
     write_file(name_result, prog);
+
+    print_prog(prog);
+    printf("**** Press enter to start execute **** (soon)\n");
 
     free_prog(prog);
   }
-*/
+
   return 0;
 }
