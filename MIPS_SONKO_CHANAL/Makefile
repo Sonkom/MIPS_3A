@@ -1,5 +1,5 @@
 all: main.o function.o translation.o file.o memory.o
-	gcc -o emul-mips main.o function.o translation.o file.o
+	gcc -o emul-mips main.o function.o translation.o file.o memory.o
 	rm *.o
 
 main.o: Code/main.c

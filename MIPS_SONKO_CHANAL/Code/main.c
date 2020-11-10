@@ -3,7 +3,10 @@
 
 int main(int argc, char *argv[]) {
 
-  char *name_source, *name_result;
+  init_registers();
+  print_registers();
+
+/*  char *name_source, *name_result;
   program prog;
 
   if (argc != 2) printf("ERREUR : Nombre d'arguments non valide => Il nous faut que le fichier source\n");
@@ -24,6 +27,6 @@ int main(int argc, char *argv[]) {
 
     free_prog(prog);
   }
-
+*/
   return 0;
 }
