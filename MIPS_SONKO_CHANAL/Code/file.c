@@ -5,7 +5,7 @@
 program init_program(void){
    program init = (program)malloc(sizeof(instruction));
    init->next = NULL;
-   init->n_line = 0;
+   init->address = 0;
    return init;
  }
 
@@ -36,7 +36,7 @@ void print_prog(program prog) {
 
   printf("Affichage du programme :\n");
   while(prog_printer != NULL) {
-    printf("%d : %s\n",prog_printer->n_line, prog_printer->line);
+    printf("      %.8x %.8x : { %s }\n",prog_printer->address, prog_printer->line_hexa ,prog_printer->line);
     prog_printer = prog_printer->next;
   }
 }
@@ -46,7 +46,8 @@ void print_prog(program prog) {
 void read_file(char* name_source, program prog){
   FILE *file_source;
   char character, *read_line = NULL;
-  int index = 0, is_comment = 0, line_number = 0;
+  int index = 0, is_comment = 0;
+  unsigned int instruct_address = 0;
   instruction* instruct = NULL;
 
   file_source = fopen(name_source, "r");
@@ -67,7 +68,8 @@ void read_file(char* name_source, program prog){
           if (instruct == NULL){
             instruct = add_instruct(prog);
             read_line = instruct->line;
-            instruct->n_line = ++line_number;
+            instruct->address = instruct_address;
+            instruct_address+=4;
           }
           read_line[index] = character;
           index++;
@@ -100,7 +102,7 @@ void translate_to_hexa(program prog){
 void write_file(char* name_result, program prog){
   instruction* file_writer = prog->next;
   FILE *file_result;
-  unsigned int buffer, index, success = 1;
+  int success = 1;
 
   file_result = fopen(name_result, "w");
   if(file_result == NULL) {
@@ -109,16 +111,8 @@ void write_file(char* name_result, program prog){
   }
 
   while ((file_writer != NULL) && success){
-    index = 0;
-    if (file_writer->line_hexa != -1){
-        buffer = file_writer->line_hexa;
-        while ((buffer < 0x10000000) && (index < 7)) {
-          fprintf(file_result, "%x",0);
-          buffer = buffer << 4;
-          index++;
-        }
-        fprintf(file_result, "%x\n",file_writer->line_hexa);
-    } else success = 0;
+    if (file_writer->line_hexa != -1) fprintf(file_result, "%.8x\n",file_writer->line_hexa);
+    else success = 0;
     file_writer = file_writer->next;
   }
   fclose(file_result);

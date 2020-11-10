@@ -4,7 +4,6 @@
 
 #define NBR_REGISTERS 35
 
-char registers_name[NBR_REGISTERS][4] = {"zero", "at", "v0", "v1", "a0", "a1", "a2", "a3", "t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7", "s0", "s1", "s2", "s3", "s4", "s5", "s6", "s7", "t8", "t9", "k0", "k1", "gp", "sp", "fp", "ra", "hi", "lo", "pc"};
 int registers[NBR_REGISTERS]; /* Tableau des registres : de $0 à $31 + hi, lo et pc respectivement à 33, 34 et 35;*/
 
 /*---- TRADUCTION DES REGISTRES ----*/

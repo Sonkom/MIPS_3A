@@ -6,7 +6,7 @@
 typedef struct instruction instruction;
 
 struct instruction {
-  int n_line; /* Numéro d'index de l'instruction, initialisé à 0 pour la tête du programme */
+  unsigned int address; /* Addresse de l'instruction */
   char line[LENLINE] ; /* contenue de la ligne */
   int line_hexa; /* traduction hexadécimal de la ligne */
   instruction* next ; /* adresse du successeur */
