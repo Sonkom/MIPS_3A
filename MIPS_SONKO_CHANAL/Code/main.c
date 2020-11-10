@@ -1,6 +1,6 @@
 #include "translation.h"
 #include "function.h"
-#include "memory.h"
+#include "file.h"
 
 
 int main(int argc, char *argv[]) {

@@ -1,5 +1,5 @@
-all: main.o function.o translation.o memory.o
-	gcc -o emul-mips main.o function.o translation.o memory.o
+all: main.o function.o translation.o file.o
+	gcc -o emul-mips main.o function.o translation.o file.o
 	rm *.o
 
 main.o: Code/main.c
@@ -11,8 +11,8 @@ function.o: Code/function.c Code/function.h
 translation.o: Code/translation.c Code/translation.h
 	gcc -g -c Code/translation.c -Wall
 
-memory.o: Code/memory.c Code/memory.h
-	gcc -g -c Code/memory.c -Wall
+file.o: Code/file.c Code/file.h
+	gcc -g -c Code/file.c -Wall
 
 clear :
 	rm *.o
