@@ -1,6 +1,6 @@
 //Code concernant la traduction des instructions MIPS en leurs formes hexadécimales
-#include "translation.h"
 #include <stdint.h>
+#include "translation.h"
 
 int translate(char* line){
   int result,inst_len,i=0,j=0,end_op;
@@ -172,11 +172,9 @@ int translate(char* line){
 }
 
 
-int translate_immediat(int code, int arg1, int arg2, int arg3){
-  int8_t r0 = arg1,
-         r1 = arg2;
-  int16_t imm = arg3;
-  return (code << 26) + (r0 << 21) + (r1 << 16) + imm;
+int translate_immediat(int code, int r0, int r1, int imm){
+  int16_t imm16 = imm;
+  return (code << 26) + (r0 << 21) + (r1 << 16) + imm16;
 }
 
 int translate_direct(int special, int r0, int r1, int r2, int r3, int code){
