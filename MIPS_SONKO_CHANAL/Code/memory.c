@@ -1,4 +1,4 @@
-//Gère la mémoire du processeur
+//Gère la mémoire de données
 
 #include "memory.h"
 

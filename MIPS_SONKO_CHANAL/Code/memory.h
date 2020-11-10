@@ -1,10 +1,20 @@
-//Gère la mémoire du processeur
+//Gère la mémoire de données
 
 #include "translation.h"
 #include "function.h"
 #include "file.h"
 
 #define NBR_REGISTERS 35
+
+typedef struct cell cell;
+
+struct cell {
+  unsigned int address; /* Addresse de l'instruction */
+  char data ; /* contenue de la cellule */
+  cell* next ; /* adresse du successeur */
+};
+
+cell* data_memory;
 
 char* registers_name[NBR_REGISTERS];
 int registers[NBR_REGISTERS]; /* Tableau des registres : de $0 à $31 + hi, lo et pc respectivement à 33, 34 et 35;*/
@@ -63,3 +73,7 @@ void print_registers(void);
 int read_register(int index_register);
 
 void write_register(int index_register, int value);
+
+int read_data(int address);
+
+void write_data(int address, int data);
