@@ -54,3 +54,9 @@ void test_and_hexified(char** name_source, char** name_result){
   *name_source = str1;
   *name_result = str2;
 }
+
+int create_mask(int start, int end){
+  int result=0;
+  for(int i=start;i<=end;i++) result += 1<<i;
+  return result;
+}

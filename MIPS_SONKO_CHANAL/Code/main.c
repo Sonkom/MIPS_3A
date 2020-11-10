@@ -2,6 +2,14 @@
 
 
 int main(int argc, char *argv[]) {
+/*
+  init_registers();
+  print_registers();
+  exec_ADDI(0x20080001);
+  exec_ADDI(0x20070003);
+  exec_BEQ(0x10e80010);
+  print_registers();
+*/
 
   char *name_source, *name_result;
   program prog;

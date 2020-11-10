@@ -17,7 +17,7 @@ file.o: Code/file.c Code/file.h
 memory.o: Code/memory.c Code/memory.h
 	gcc -g -c Code/memory.c -Wall
 
-registers.o: Code/registers.o Code/registers.h
+registers.o: Code/registers.c Code/registers.h
 	gcc -g -c Code/registers.c -Wall
 
 clear :
