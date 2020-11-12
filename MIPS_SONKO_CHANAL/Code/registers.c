@@ -1,45 +1,9 @@
 //Gère le processeur (registre + exécution d'instruction)
-
+#include "file.h"
 #include "registers.h"
 #include "function.h"
 
 void init_registers(){
-   zero = registers+0; /* Registre ZERO (toujours nul) */
-   at = registers+1;  /* Assembler tempory*/
-  // Retour d'une sous-routine :
-   v0 = registers+2;
-   v1 = registers+3;
-  // Arguments d'une sous-routine :
-   a0 = registers+4;
-   a1 = registers+5;
-   a2 = registers+6;// Gère la lecture du programme dans un fichier en entrée, et l'écriture du code hexadécimal dans un fichier en sortie
-
-   a3 = registers+7;
-  // Registres temporaires
-   t0 = registers+8;
-   t1 = registers+9;
-   t2 = registers+10;
-   t3 = registers+11;
-   t4 = registers+12;
-   t5 = registers+13;
-   t6 = registers+14;
-   t7 = registers+15;
-  // Registres temporaires préservés par les sous-routines
-   s0 = registers+16;
-   s1 = registers+17;
-   s2 = registers+18;
-   s3 = registers+19;
-   s4 = registers+20;
-   s5 = registers+21;
-   s6 = registers+22;
-   s7 = registers+23;
-  // Deux temporaires supplémentaires
-   t8 = registers+24;
-   t9 = registers+25;
-  // Kernel (réservés !)
-   k0 = registers+26;
-   k1 = registers+27;
-
    gp = registers+28; /* Global Pointer */
    sp = registers+29; /* Stack Pointer */
    fp = registers+30; /* Frame Pointer */
@@ -104,6 +68,10 @@ int read_register(int index_register){
 
 void write_register(int index_register, int value){
   registers[index_register] = value;
+}
+
+void execution(program prog){
+  
 }
 
 void exec_ADD(int instruction){

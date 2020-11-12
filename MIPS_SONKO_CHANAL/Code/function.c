@@ -57,6 +57,10 @@ void test_and_hexified(char** name_source, char** name_result){
 
 int create_mask(int start, int end){
   int result=0;
-  for(int i=start;i<=end;i++) result += 1<<i;
+  if(start > end){
+    printf("Erreur masque impossible\n");
+  }else{
+    for(int i=start;i<=end;i++) result += 1<<i;
+  }
   return result;
 }

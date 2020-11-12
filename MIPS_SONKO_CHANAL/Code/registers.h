@@ -9,41 +9,6 @@ int registers[NBR_REGISTERS]; /* Tableau des registres : de $0 à $31 + hi, lo e
 
 /*---- TRADUCTION DES REGISTRES ----*/
 
-int* zero; /* Registre ZERO (toujours nul) */
-int* at;  /* Assembler tempory*/
-// Retour d'une sous-routine :
-int* v0;
-int* v1;
-// Arguments d'une sous-routine :
-int* a0;
-int* a1;
-int* a2;
-int* a3;
-// Registres temporaires
-int* t0;
-int* t1;
-int* t2;
-int* t3;
-int* t4;
-int* t5;
-int* t6;
-int* t7;
-// Registres temporaires préservés par les sous-routines
-int* s0;
-int* s1;
-int* s2;
-int* s3;
-int* s4;
-int* s5;
-int* s6;
-int* s7;
-// Deux temporaires supplémentaires
-int* t8;
-int* t9;
-// Kernel (réservés !)
-int* k0;
-int* k1;
-
 int* gp; /* Global Pointer */
 int* sp; /* Stack Pointer */
 int* fp; /* Frame Pointer */
@@ -54,14 +19,22 @@ int* lo;
 
 int* pc; /* PROGRAM COUNTER */
 
-void init_registers(void);
+/* ------ Manipulations des registres ------ */
 
-void print_registers(void);
+void init_registers(void); //Permet d'initialiser les tableaux globaux ainsi que les pointeurs
 
-int read_register(int index_register);
+void print_registers(void); //Affiche l'état actuel des registres
 
-void write_register(int index_register, int value);
+int read_register(int index_register); //Retourne le registre d'indice index_register
 
+void write_register(int index_register, int value);//Change la valeur du registre d'indice index_register
+
+
+/* ------ Simulation de l'execution ------ */
+
+void execution(program prog); //Execute l'ensemble des instructions d'un programme
+
+//Fonctions d'exécution pour chaque opérations :
 void exec_ADD(int instruction);
 void exec_ADDI(int instruction);
 void exec_AND(int instruction);
