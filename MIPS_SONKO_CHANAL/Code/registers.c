@@ -1,6 +1,5 @@
 //Gère le processeur (registre + exécution d'instruction)
 #include "registers.h"
-#include "function.h"
 
 void init_registers(){
    gp = registers+28; /* Global Pointer */
