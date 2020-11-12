@@ -1,5 +1,4 @@
 //Gère le processeur (registre + exécution d'instruction)
-#include "file.h"
 #include "registers.h"
 #include "function.h"
 
@@ -71,7 +70,11 @@ void write_register(int index_register, int value){
 }
 
 void execution(program prog){
-  
+  instruction* executed_instruction = prog->next;
+  while(executed_instruction != NULL){
+    *(executed_instruction->exec)(executed_instruction->line_exa);
+    executed_instruction = executed_instruction->next;
+  }
 }
 
 void exec_ADD(int instruction){
