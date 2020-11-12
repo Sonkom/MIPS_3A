@@ -7,6 +7,7 @@
 program init_program(void){
    program init = (program)malloc(sizeof(instruction));
    init->next = NULL;
+   init->prev = NULL;
    init->address = 0;
    return init;
  }
@@ -19,6 +20,7 @@ instruction* add_instruct(program prog) {
 
   while (last->next != NULL) last = last->next;
   last->next = instruct;
+  instruct->prev = last;
 
   return instruct;
 }
@@ -93,15 +95,6 @@ void read_file(char* name_source, program prog){
   fclose(file_source);
 }
 
-void translate_to_hexa(program prog){
-  instruction* translater = prog->next;
-
-  while(translater != NULL) {
-    translater->line_hexa = translate(translater->line);
-    translater = translater->next;
-  }
-}
-
 void write_file(char* name_result, program prog){
   instruction* file_writer = prog->next;
   FILE *file_result;
@@ -121,29 +114,40 @@ void write_file(char* name_result, program prog){
   fclose(file_result);
 }
 
+/*---- TRADUCTION HEXA + EXECUTION PROGRAMME ----*/
+
+void translate_to_hexa(program prog){
+  instruction* translater = prog->next;
+
+  while(translater != NULL) {
+    translater->line_hexa = translate(translater->line);
+    translater = translater->next;
+  }
+}
+
 void execution_pointer_setup(program prog){
   instruction* setup_pointer = prog->next;
 
   while(setup_pointer != NULL) {
-    instruct_execute_pointer(setup_pointer->line, &(setup_pointer->exec));
+    instruct_execute_pointer(setup_pointer->line, setup_pointer->exec);
     setup_pointer = setup_pointer->next;
   }
 }
 
-void instruct_execute_pointer(char *line, void (**exec)(int)){
+void instruct_execute_pointer(char *line, void (*exec)(int)){
   int inst_len,i=0;
 
   while(*(line+i) != ' ' && *(line+i+1) != '\0') i++;
   inst_len=i;
 
 
-  /*if(!strncmp(line, "NOP",inst_len)){
+  if(!strncmp(line, "NOP",inst_len)){
     exec = exec_NOP;
 
-  }else*/ if(!strncmp(line, "ADD", inst_len)){
-    *exec = &exec_ADD;
+  }else if(!strncmp(line, "ADD", inst_len)){
+    exec = exec_ADD;
 
-  /*}else if(!strncmp(line, "AND", inst_len)){
+  }else if(!strncmp(line, "AND", inst_len)){
     exec = exec_AND;
 
   }else if(!strncmp(line, "JR", inst_len)){
@@ -182,13 +186,13 @@ void instruct_execute_pointer(char *line, void (**exec)(int)){
   }else if(!strncmp(line, "XOR", inst_len)){
     exec = exec_XOR;
 
-  */}else if(!strncmp(line, "ADDI", inst_len)){
-    *exec = &exec_ADDI;
+  }else if(!strncmp(line, "ADDI", inst_len)){
+    exec = exec_ADDI;
 
   }else if(!strncmp(line, "BEQ", inst_len)){
-    *exec = &exec_BEQ;
+    exec = exec_BEQ;
 
-  /*}else if(!strncmp(line, "BGTZ", inst_len)){
+  }else if(!strncmp(line, "BGTZ", inst_len)){
     exec = exec_BGTZ;
 
   }else if(!strncmp(line, "BLEZ", inst_len)){
@@ -272,7 +276,7 @@ void instruct_execute_pointer(char *line, void (**exec)(int)){
   }else if(!strncmp(line, "XORI", inst_len)){
     exec = exec_XORI;
 
-  */}else{
+  }else{
     printf("ERREUR : Opération inconnu\n");
     //result = -1; //Cas d'erreur, il est impossible d'avoir 0xFFFFFFF0 dans les autres cas d'où l'utilisation de -1
   }

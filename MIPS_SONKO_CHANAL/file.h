@@ -37,7 +37,7 @@ void write_file(char* name_result, program prog); //Fonction qui écrit le résu
 
 void translate_to_hexa(program prog); //Fonction qui traduit chaque ligne en son code hexadécimal et la met dans la liste chaînée (dans le champ line_hexa)
 
-void instruct_execute_pointer(char *line, void (**exec)(int)); //Fonction qui modifie le pointeur de fonction de telle sorte qu'elle pointe vers la fonction correspondante
+void instruct_execute_pointer(char *line, void (*exec)(int)); //Fonction qui modifie le pointeur de fonction de telle sorte qu'elle pointe vers la fonction correspondante
 
 void execution_pointer_setup(program prog); //Fonction qui setup les pointeurs de fonction pour chaque instruction
 

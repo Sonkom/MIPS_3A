@@ -17,12 +17,21 @@ int main(int argc, char *argv[]) {
 
     read_file(name_source, prog);
     translate_to_hexa(prog);
-    execution(prog);
-    print_registers();
+
+    execution_pointer_setup(prog);
+    
     write_file(name_result, prog);
+
+    init_registers();
+    init_data_memory();
 
     print_prog(prog);
     printf("**** Press enter to start execute **** (soon)\n");
+
+
+    execution(prog);
+    print_registers();
+
 
     free_prog(prog);
   }
