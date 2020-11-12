@@ -104,13 +104,13 @@ int translate(char* line){
     result = translate_JAL(op[0]);
 
   }else if(!strncmp(line, "ADDIU", inst_len)){
-    result = translate_ADDIU(op[0],op[1],op[3]);
+    result = translate_ADDIU(op[0],op[1],op[2]);
 
   }else if(!strncmp(line, "ADDU", inst_len)){
-    result = translate_ADDU(op[0],op[1],op[3]);
+    result = translate_ADDU(op[0],op[1],op[2]);
 
   }else if(!strncmp(line, "ANDI", inst_len)){
-    result = translate_ANDI(op[0],op[1],op[3]);
+    result = translate_ANDI(op[0],op[1],op[2]);
 
   }else if(!strncmp(line, "BGEZ", inst_len)){
     result = translate_BGEZ(op[0],op[1]);
