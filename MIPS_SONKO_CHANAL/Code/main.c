@@ -1,16 +1,8 @@
-#include "registers.h"
+#include "file.h"
 
 
 int main(int argc, char *argv[]) {
 
-  init_registers();
-  print_registers();
-  exec_ADDI(0x20080001);
-  exec_ADDI(0x20070001);
-  exec_BEQ(0x10e80010);
-  print_registers();
-
-/*
   char *name_source, *name_result;
   program prog;
 
@@ -25,6 +17,8 @@ int main(int argc, char *argv[]) {
 
     read_file(name_source, prog);
     translate_to_hexa(prog);
+    execution(prog);
+    print_registers();
     write_file(name_result, prog);
 
     print_prog(prog);
@@ -32,6 +26,6 @@ int main(int argc, char *argv[]) {
 
     free_prog(prog);
   }
-*/
+
   return 0;
 }

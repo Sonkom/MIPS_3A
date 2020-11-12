@@ -137,13 +137,13 @@ void instruct_execute_pointer(char *line, void (*exec)(int)){
   inst_len=i;
 
 
-  if(!strncmp(line, "NOP",inst_len)){
+  /*if(!strncmp(line, "NOP",inst_len)){
     exec = exec_NOP;
 
-  }else if(!strncmp(line, "ADD", inst_len)){
+  }else*/ if(!strncmp(line, "ADD", inst_len)){
     exec = exec_ADD;
 
-  }else if(!strncmp(line, "AND", inst_len)){
+  /*}else if(!strncmp(line, "AND", inst_len)){
     exec = exec_AND;
 
   }else if(!strncmp(line, "JR", inst_len)){
@@ -182,13 +182,13 @@ void instruct_execute_pointer(char *line, void (*exec)(int)){
   }else if(!strncmp(line, "XOR", inst_len)){
     exec = exec_XOR;
 
-  }else if(!strncmp(line, "ADDI", inst_len)){
+  */}else if(!strncmp(line, "ADDI", inst_len)){
     exec = exec_ADDI;
 
   }else if(!strncmp(line, "BEQ", inst_len)){
     exec = exec_BEQ;
 
-  }else if(!strncmp(line, "BGTZ", inst_len)){
+  /*}else if(!strncmp(line, "BGTZ", inst_len)){
     exec = exec_BGTZ;
 
   }else if(!strncmp(line, "BLEZ", inst_len)){
@@ -272,7 +272,7 @@ void instruct_execute_pointer(char *line, void (*exec)(int)){
   }else if(!strncmp(line, "XORI", inst_len)){
     exec = exec_XORI;
 
-  }else{
+  */}else{
     printf("ERREUR : Opération inconnu\n");
     //result = -1; //Cas d'erreur, il est impossible d'avoir 0xFFFFFFF0 dans les autres cas d'où l'utilisation de -1
   }
