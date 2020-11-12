@@ -112,7 +112,6 @@ void exec_ADD(int instruction){
       rd = (instruction & create_mask(11,15))>>11;
   write_register(rd, read_register(rs) + read_register(rt));
   *pc += 4;
-  printf("%d\n", *pc);
 }
 
 void exec_ADDI(int instruction){
@@ -121,8 +120,16 @@ void exec_ADDI(int instruction){
       imm = instruction & create_mask(0,15);
   write_register(rt , read_register(rs)+imm);
   *pc += 4;
-  printf("%d\n", *pc);
 }
+
+void exec_AND(int instruction){
+  int rs = (instruction & create_mask(21,25))>>21,
+      rt = (instruction & create_mask(16,20))>>16,
+      rd = (instruction & create_mask(11,15))>>11;
+  write_register(rd, read_register(rs) & read_register(rt));
+  *pc += 4;
+}
+
 
 void exec_BEQ(int instruction){
   int rs = (instruction & create_mask(21,25))>>21,
@@ -133,5 +140,4 @@ void exec_BEQ(int instruction){
   }else{
     *pc += 4;
   }
-  printf("%d\n", *pc);
 }

@@ -64,4 +64,5 @@ void write_register(int index_register, int value);
 
 void exec_ADD(int instruction);
 void exec_ADDI(int instruction);
+void exec_AND(int instruction);
 void exec_BEQ(int instruction);
