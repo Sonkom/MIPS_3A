@@ -50,6 +50,7 @@ void init_registers(){
    registers_name[34] = "  pc";
 
   for(int i=0; i<NBR_REGISTERS; i++) registers[i]=0; //Initialisation de la valeur des registres à 0
+
 }
 
 void print_registers(){

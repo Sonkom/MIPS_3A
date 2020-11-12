@@ -31,7 +31,54 @@ void write_register(int index_register, int value);//Change la valeur du registr
 
 
 //Fonctions d'exécution pour chaque opérations :
-void exec_ADD(int instruction);
-void exec_ADDI(int instruction);
-void exec_AND(int instruction);
-void exec_BEQ(int instruction);
+int exec_ADD(int instruction);
+int exec_AND(int instruction);
+int exec_JR(int instruction);
+int exec_MFHI(int instruction);
+int exec_MFLO(int instruction);
+int exec_MULT(int instruction);
+int exec_NOP(int instruction);
+int exec_OR(int instruction);
+int exec_DIV(int instruction);
+int exec_ROTR(int instruction);
+int exec_SLL(int instruction);
+int exec_SLT(int instruction);
+int exec_SRL(int instruction);
+int exec_SUB(int instruction);
+int exec_XOR(int instruction);
+
+/*--------- IMMÉDIAT ---------*/
+int exec_ADDI(int instruction);
+int exec_BEQ(int instruction);
+int exec_BGTZ(int instruction);
+int exec_BLEZ(int instruction);
+int exec_BNE(int instruction);
+int exec_LUI(int instruction);
+int exec_SW(int instruction);
+int exec_LW(int instruction);
+
+/*--------- JUMP ---------*/
+int exec_J(int instruction);
+int exec_JAL(int instruction);
+
+/*--------- OPT ---------*/
+int exec_ADDIU(int instruction);
+int exec_ADDU(int instruction);
+int exec_ANDI(int instruction);
+int exec_BGEZ(int instruction);
+int exec_BGEZAL(int instruction);
+int exec_BLTZ(int instruction);
+int exec_BLTZAL(int instruction);
+int exec_DIVU(int instruction);
+int exec_LB(int instruction);
+int exec_MULTU(int instruction);
+int exec_ORI(int instruction);
+int exec_SB(int instruction);
+int exec_SLLV(int instruction);
+int exec_SLTI(int instruction);
+int exec_SLTIU(int instruction);
+int exec_SLTU(int instruction);
+int exec_SRA(int instruction);
+int exec_SRLV(int instruction);
+int exec_SUBU(int instruction);
+int exec_XORI(int instruction);
