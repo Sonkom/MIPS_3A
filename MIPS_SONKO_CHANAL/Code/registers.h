@@ -30,10 +30,6 @@ int read_register(int index_register); //Retourne le registre d'indice index_reg
 void write_register(int index_register, int value);//Change la valeur du registre d'indice index_register
 
 
-/* ------ Simulation de l'execution ------ */
-
-void execution(program prog); //Execute l'ensemble des instructions d'un programme
-
 //Fonctions d'exécution pour chaque opérations :
 void exec_ADD(int instruction);
 void exec_ADDI(int instruction);

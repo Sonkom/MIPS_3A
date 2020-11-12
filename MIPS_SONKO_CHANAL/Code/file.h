@@ -1,9 +1,6 @@
 // Gère la lecture du programme dans un fichier en entrée, et l'écriture du code hexadécimal dans un fichier en sortie
 
-#include "translation.h"
-#include "function.h"
 #include "registers.h"
-#include "memory.h"
 
 #define LENLINE 20
 
@@ -43,4 +40,4 @@ void execution_pointer_setup(program prog);
 
 void instruct_execute_pointer(char *line, void (*exec)(int));
 
-void execution(program prog);
+void execution(program prog); //Execute l'ensemble des instructions d'un programme

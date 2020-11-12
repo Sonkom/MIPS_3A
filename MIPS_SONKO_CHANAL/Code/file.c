@@ -283,7 +283,7 @@ void instruct_execute_pointer(char *line, void (*exec)(int)){
 void execution(program prog){
   instruction* executed_instruction = prog->next;
   while(executed_instruction != NULL){
-    *(executed_instruction->exec)(executed_instruction->line_exa);
+    (*(executed_instruction->exec))(executed_instruction->line_hexa);
     executed_instruction = executed_instruction->next;
   }
 }

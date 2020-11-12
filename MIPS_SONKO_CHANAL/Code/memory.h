@@ -1,9 +1,6 @@
 //Gère la mémoire de données
 
 #include "translation.h"
-#include "function.h"
-#include "registers.h"
-
 
 typedef struct cell cell;
 
