@@ -173,8 +173,7 @@ int translate(char* line){
 
 
 int translate_immediat(int code, int r0, int r1, int imm){
-  int16_t imm16 = imm;
-  return (code << 26) + (r0 << 21) + (r1 << 16) + imm16;
+  return (code << 26) + (r0 << 21) + (r1 << 16) + (imm & 0x0000FFFF);
 }
 
 int translate_direct(int special, int r0, int r1, int r2, int r3, int code){
