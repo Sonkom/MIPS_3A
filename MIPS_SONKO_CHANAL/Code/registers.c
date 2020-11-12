@@ -69,14 +69,6 @@ void write_register(int index_register, int value){
   registers[index_register] = value;
 }
 
-void execution(program prog){
-  instruction* executed_instruction = prog->next;
-  while(executed_instruction != NULL){
-    *(executed_instruction->exec)(executed_instruction->line_exa);
-    executed_instruction = executed_instruction->next;
-  }
-}
-
 void exec_ADD(int instruction){
   int rs = (instruction & create_mask(21,25))>>21,
       rt = (instruction & create_mask(16,20))>>16,
