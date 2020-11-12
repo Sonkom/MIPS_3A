@@ -284,6 +284,12 @@ void execution(program prog){
   instruction* executed_instruction = prog->next;
   while(executed_instruction != NULL){
     (*(executed_instruction->exec))(executed_instruction->line_hexa);
-    executed_instruction = executed_instruction->next;
+
+    while(executed_instruction != NULL && executed_instruction->address != *pc){
+      if(executed_instruction->address < *pc) executed_instruction = executed_instruction->next;
+      else executed_instruction = executed_instruction->prev;
+    }
+
+
   }
 }
