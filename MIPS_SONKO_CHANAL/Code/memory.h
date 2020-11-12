@@ -15,8 +15,12 @@ struct cell {
 
 cell* data_memory;
 
+void init_data_memory(void);
 
+cell* add_cell(int address, char data);
 
-int read_data(int address);
+void write_data(unsigned int address, int data);
 
-void write_data(int address, int data);
+int read_data(unsigned int address);
+
+//void write_data_char(cell* write, unsigned int address, char* data_bytes);
