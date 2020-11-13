@@ -1,8 +1,8 @@
-// Gère la lecture du programme dans un fichier en entrée, et l'écriture du code hexadécimal dans un fichier en sortie
+// Gère la lecture du programme dans un fichier en entrée, l'écriture du code hexadécimal dans un fichier en sortie, et le programme entier (exécution du programme) => Liste chainée program
 
 #include "file.h"
 
- /* ------ UTILITAIRE À LA LISTE CHAINÉE ------*/
+/* ------ UTILITAIRE À LA LISTE CHAINÉE ------*/
 
 program init_program(void){
    program init = (program)malloc(sizeof(instruction));
@@ -41,7 +41,7 @@ void print_prog(program prog) {
     printf("      %.8x %.8x : { %s }\n",prog_printer->address, prog_printer->line_hexa ,prog_printer->line);
     prog_printer = prog_printer->next;
   }
-  printf("\n\n");
+  printf("\n");
 }
 
 /* ------ LECTURE + ÉCRITURE DE FICHIER ------ */
@@ -93,15 +93,6 @@ void read_file(char* name_source, program prog){
   fclose(file_source);
 }
 
-void translate_to_hexa(program prog){
-  instruction* translater = prog->next;
-
-  while(translater != NULL) {
-    translater->line_hexa = translate(translater->line);
-    translater = translater->next;
-  }
-}
-
 void write_file(char* name_result, program prog){
   instruction* file_writer = prog->next;
   FILE *file_result;
@@ -119,6 +110,17 @@ void write_file(char* name_result, program prog){
     file_writer = file_writer->next;
   }
   fclose(file_result);
+}
+
+/*---- TRADUCTION HEXA + EXECUTION PROGRAMME ----*/
+
+void translate_to_hexa(program prog){
+  instruction* translater = prog->next;
+
+  while(translater != NULL) {
+    translater->line_hexa = translate(translater->line);
+    translater = translater->next;
+  }
 }
 
 void execution_pointer_setup(program prog){
@@ -283,13 +285,12 @@ void instruct_execute_pointer(char *line, void (**exec)(int)){
 void execution(program prog){
   instruction* executed_instruction = prog->next;
   while(executed_instruction != NULL){
+    printf("Processing instruction:\n%.8x  { %s }\n\n",executed_instruction->line_hexa, executed_instruction->line);
     (*(executed_instruction->exec))(executed_instruction->line_hexa);
 
     while(executed_instruction != NULL && executed_instruction->address != *pc){
       if(executed_instruction->address < *pc) executed_instruction = executed_instruction->next;
       else executed_instruction = executed_instruction->prev;
     }
-
-
   }
 }

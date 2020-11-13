@@ -5,6 +5,7 @@ int main(int argc, char *argv[]) {
 
   char *name_source, *name_result;
   program prog;
+  char input = '\0';
 
   if (argc != 2) printf("ERREUR : Nombre d'arguments non valide => Il nous faut que le fichier source\n");
   else {
@@ -16,22 +17,23 @@ int main(int argc, char *argv[]) {
 
 
     read_file(name_source, prog);
-    translate_to_hexa(prog);
 
+    translate_to_hexa(prog);
     execution_pointer_setup(prog);
-    
+
     write_file(name_result, prog);
 
     init_registers();
     init_data_memory();
 
     print_prog(prog);
-    printf("**** Press enter to start execute **** (soon)\n");
 
+    printf("**** Press enter to start execute ****\n");
+    scanf("%c",&input);
 
     execution(prog);
     print_registers();
-
+    printf("\nProgram finished.\n\n");
 
     free_prog(prog);
   }

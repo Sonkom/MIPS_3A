@@ -12,12 +12,14 @@ struct cell {
 
 cell* data_memory;
 
-void init_data_memory(void);
+/*------ FONCTIONS POUR LA MÉMOIRE DE DONNÉES ------*/
 
-cell* add_cell(int address, char data);
+void init_data_memory(void); //Initialise la liste chainée correspondant à la mémoire de donnée
 
-void write_data(unsigned int address, int data);
+cell* add_cell(int address, char data); //Ajoute un champ dans la mémoire de donnée d'adresse passée en argument
 
-int read_data(unsigned int address);
+void write_data(unsigned int address, int data); //Écris dans la mémoire de donnée le mot "data" à la case mémoire d'adresse "address" (Instruction Store Word)
+
+int read_data(unsigned int address); //Lis le mot présent à la case mémoire d'adresse "address"
 
 //void write_data_char(cell* write, unsigned int address, char* data_bytes);

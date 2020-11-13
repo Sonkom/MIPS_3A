@@ -1,4 +1,5 @@
 //Code concernant les fonctions utiles supplémentaires
+
 #include "function.h"
 
 //Convertie la chaine de caractère str[d:f] en un entier

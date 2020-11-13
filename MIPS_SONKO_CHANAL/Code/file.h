@@ -1,4 +1,4 @@
-// Gère la lecture du programme dans un fichier en entrée, et l'écriture du code hexadécimal dans un fichier en sortie
+// Gère la lecture du programme dans un fichier en entrée, l'écriture du code hexadécimal dans un fichier en sortie, et le programme entier (exécution du programme) => Liste chainée program
 
 #include "registers.h"
 

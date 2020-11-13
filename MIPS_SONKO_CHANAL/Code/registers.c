@@ -54,7 +54,7 @@ void init_registers(){
 }
 
 void print_registers(){
-  printf("Etat des registres :\n");
+  printf("Registers state :\n\n");
   for(int i=0; i<NBR_REGISTERS; i++){
     printf(" %s : 0x%.8x",registers_name[i], registers[i]);
     if((i%4==3 && i != 0) || i+1==NBR_REGISTERS) printf("\n");
