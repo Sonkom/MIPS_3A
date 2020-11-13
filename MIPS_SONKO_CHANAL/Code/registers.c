@@ -104,3 +104,79 @@ void exec_BEQ(int instruction){
     *pc += 4;
   }
 }
+
+void exec_BGTZ(int instruction){
+  int rs = (instruction & create_mask(21,25))>>21,
+      offset = instruction & create_mask(0,15);
+  if(read_register(rs)>0){
+    *pc += offset << 2;
+  }else{
+    *pc += 4;
+  }
+}
+
+void exec_BLEZ(int instruction){
+  int rs = (instruction & create_mask(21,25))>>21,
+      offset = instruction & create_mask(0,15);
+  if(read_register(rs)<=0){
+    *pc += offset << 2;
+  }else{
+    *pc += 4;
+  }
+}
+
+void exec_BNE(int instruction){
+  int rs = (instruction & create_mask(21,25))>>21,
+      rt = (instruction & create_mask(16,20))>>16,
+      offset = instruction & create_mask(0,15);
+  if(read_register(rs)!=read_register(rt)){
+    *pc += offset << 2;
+  }else{
+    *pc += 4;
+  }
+}
+
+void exec_DIV(int instruction){
+  int rs = (instruction & create_mask(21,25))>>21,
+      rt = (instruction & create_mask(16,20))>>16;
+  *LO=read_register(rs)/read_register(rt);
+  *HI=read_register(rs)%read_register(rt);
+}
+
+void exec_J(int instruction){}
+void exec_JAL(int instruction){}
+void exec_JR(int instruction){}
+void exec_LUI(int instruction){}
+void exec_LW(int instruction){}
+void exec_MFHI(int instruction){}
+void exec_MFLO(int instruction){}
+void exec_MULT(int instruction){}
+void exec_NOP(int instruction){}
+void exec_OR(int instruction){}
+void exec_ROTR(int instruction){}
+void exec_SLL(int instruction){}
+void exec_SLT(int instruction){}
+void exec_SRL(int instruction){}
+void exec_SUB(int instruction){}
+void exec_SW(int instruction){}
+void exec_XOR(int instruction){}
+void exec_ADDIU(int instruction){}
+void exec_ADDU(int instruction){}
+void exec_ANDI(int instruction){}
+void exec_BGEZ(int instruction){}
+void exec_BGEZAL(int instruction){}
+void exec_BLTZ(int instruction){}
+void exec_BLTZAL(int instruction){}
+void exec_DIVU(int instruction){}
+void exec_LB(int instruction){}
+void exec_MULTU(int instruction){}
+void exec_ORI(int instruction){}
+void exec_SB(int instruction){}
+void exec_SLLV(int instruction){}
+void exec_SLTI(int instruction){}
+void exec_SLTIU(int instruction){}
+void exec_SLTU(int instruction){}
+void exec_SRA(int instruction){}
+void exec_SRLV(int instruction){}
+void exec_SUBU(int instruction){}
+void exec_XORI(int instruction){}
