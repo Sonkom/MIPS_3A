@@ -2,7 +2,6 @@
 
 #include "function.h"
 
-//Convertie la chaine de caractère str[d:f] en un entier
 int str_to_int(char* str, int d, int f){
   int power = 1, success = 1, result = 0, sign = 1;
   if(f<d){
