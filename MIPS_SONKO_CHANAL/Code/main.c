@@ -33,8 +33,10 @@ int main(int argc, char *argv[]) {
 
     execution(prog);
     print_registers();
+    print_memory();
     printf("\nProgram finished.\n\n");
 
+    free_memory();
     free_prog(prog);
   }
 

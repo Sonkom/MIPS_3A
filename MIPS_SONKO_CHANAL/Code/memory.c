@@ -2,6 +2,8 @@
 
 #include "memory.h"
 
+/*------ FONCTIONS DE GESTION DE LA LISTE CHAÎNÉE ------*/
+
 void init_data_memory(void){
   data_memory = (cell *)malloc(sizeof(cell));
   data_memory->address = 0x0;
@@ -15,6 +17,32 @@ cell* add_cell(int address, char data){
   new_cell->data = data;
   return new_cell;
 }
+
+void print_memory(void){
+  cell* memory_printer = data_memory;
+  unsigned int index = 0;
+
+  printf("---- Memory State ----\n\n");
+  while(memory_printer != NULL) {
+    printf("      @%.8x : %.2x",memory_printer->address, memory_printer->data);
+    index++;
+    if (index == 0%4) printf("\n");
+    memory_printer = memory_printer->next;
+  }
+  printf("\n");
+}
+
+void free_memory(void){
+  cell *buffer1 = data_memory, *buffer2 = NULL;
+
+  while (buffer1 != NULL){
+    buffer2 = buffer1;
+    buffer1 = buffer1->next;
+    free(buffer2);
+  }
+}
+
+/*------ FONCTIONS POUR LA MÉMOIRE DE DONNÉES ------*/
 
 int read_data(unsigned int address){
   cell *search_address = data_memory;
@@ -70,23 +98,3 @@ void write_data(unsigned int address, int data) {
     if (buffer != NULL) buffer = buffer->next;
   }
 }
-
-/*
-void write_data_char(cell* write, unsigned int address, char* data_bytes){
-  cell *buffer = write, *buffer_next = write->next;
-
-  for (unsigned int index = 0; index < 4; index++){
-    if (buffer == NULL) {
-      buffer = add_cell(address+index, data_bytes[index]);
-      buffer = buffer->next;
-    } else if (buffer->address == address+index) {
-      buffer->data = data_bytes[index];
-      buffer = buffer->next;
-    } else {
-      buffer->next = add_cell(address+index, data_bytes[index]);
-      buffer->next->next = buffer_next;
-      buffer = buffer_next;
-    }
-    if (buffer_next != NULL) buffer_next = buffer_next->next;
-  }
-}*/

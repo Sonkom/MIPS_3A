@@ -54,7 +54,7 @@ void init_registers(){
 }
 
 void print_registers(){
-  printf("Registers state :\n\n");
+  printf("---- Registers state ----\n\n");
   for(int i=0; i<NBR_REGISTERS; i++){
     printf(" %s : 0x%.8x",registers_name[i], registers[i]);
     if((i%4==3 && i != 0) || i+1==NBR_REGISTERS) printf("\n");
@@ -139,8 +139,8 @@ void exec_BNE(int instruction){
 void exec_DIV(int instruction){
   int rs = (instruction & create_mask(21,25))>>21,
       rt = (instruction & create_mask(16,20))>>16;
-  *LO=read_register(rs)/read_register(rt);
-  *HI=read_register(rs)%read_register(rt);
+  *lo=read_register(rs)/read_register(rt);
+  *hi=read_register(rs)%read_register(rt);
 }
 
 void exec_J(int instruction){}
