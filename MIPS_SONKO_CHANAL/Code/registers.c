@@ -2,10 +2,6 @@
 #include "registers.h"
 
 void init_registers(){
-   gp = registers+28; /* Global Pointer */
-   sp = registers+29; /* Stack Pointer */
-   fp = registers+30; /* Frame Pointer */
-   ra = registers+31; /* Return Adress */
   // Registres de stockage pour des opérations entre deux données de 32 bits;
    hi = registers+32;
    lo = registers+33;

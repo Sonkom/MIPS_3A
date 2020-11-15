@@ -7,12 +7,6 @@
 char* registers_name[NBR_REGISTERS];
 int registers[NBR_REGISTERS]; /* Tableau des registres : de $0 à $31 + hi, lo et pc respectivement à 33, 34 et 35;*/
 
-/*---- TRADUCTION DES REGISTRES ----*/
-
-int* gp; /* Global Pointer */
-int* sp; /* Stack Pointer */
-int* fp; /* Frame Pointer */
-int* ra; /* Return Adress */
 // Registres de stockage pour des opérations entre deux données de 32 bits;
 int* hi;
 int* lo;
