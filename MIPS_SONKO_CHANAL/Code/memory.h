@@ -12,6 +12,8 @@ struct cell {
 
 cell* data_memory;
 
+unsigned int data_counter;
+
 /*------ FONCTIONS DE GESTION DE LA LISTE CHAÎNÉE ------*/
 
 void init_data_memory(void); //Initialise la liste chainée correspondant à la mémoire de donnée
@@ -24,6 +26,7 @@ void free_memory(void); //Libère la mémoire de donnée (en fin de programme)
 
 /*------ FONCTIONS POUR LA MÉMOIRE DE DONNÉES ------*/
 
-void write_data(unsigned int address, int data); //Écris dans la mémoire de donnée le mot "data" à la case mémoire d'adresse "address" (Instruction Store Word)
+char write_data(unsigned int address, int data); //Écris dans la mémoire de donnée le mot "data" à la case mémoire d'adresse "address" (Instruction Store Word) (modèle big endian)
+/* Si la mémoire est pleine, on retourne une erreur */
 
 int read_data(unsigned int address); //Lis le mot présent à la case mémoire d'adresse "address"

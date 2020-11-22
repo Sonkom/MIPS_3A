@@ -14,12 +14,17 @@ program init_program(void){
 instruction* add_instruct(program prog) {
 
   program last = prog;
-  instruction* instruct = (instruction *)malloc(sizeof(instruction));
-  instruct->next = NULL;
-
+  instruction* instruct = NULL;
   while (last->next != NULL) last = last->next;
-  last->next = instruct;
 
+  if ((data_counter == 0x0) && (last != prog)) printf("ERROR : The memory's capacity has reached its limits\n");
+  else {
+    instruct = (instruction *)malloc(sizeof(instruction));
+    instruct->next = NULL;
+
+    while (last->next != NULL) last = last->next;
+    last->next = instruct;
+  }
   return instruct;
 }
 
@@ -46,20 +51,21 @@ void print_prog(program prog) {
 
 /* ------ LECTURE + ÉCRITURE DE FICHIER ------ */
 
-void read_file(char* name_source, program prog){
+void read_file(char* name_source, program prog, char step_to_step_mode){
   FILE *file_source;
   char character, *read_line = NULL;
   int index = 0, is_comment = 0;
+  char overflow_check = 1, input = '\0', skip = 0;
   unsigned int instruct_address = 0;
   instruction* instruct = NULL;
 
   file_source = fopen(name_source, "r");
   if(file_source == NULL) {
-    perror("Probleme d'ouverture fichier");
+    perror("File reading problem");
     exit(1);
   }
 
-  while (!feof(file_source)) {
+  while (!feof(file_source) && overflow_check) {
 
     fscanf(file_source, "%c", &character);
 
@@ -70,9 +76,13 @@ void read_file(char* name_source, program prog){
         {
           if (instruct == NULL){
             instruct = add_instruct(prog);
-            read_line = instruct->line;
-            instruct->address = instruct_address;
-            instruct_address+=4;
+            if (instruct == NULL) overflow_check = 0;
+            else {
+              read_line = instruct->line;
+              instruct->address = instruct_address;
+              instruct_address+=4;
+              data_counter+=4;
+            }
           }
           read_line[index] = character;
           index++;
@@ -85,8 +95,18 @@ void read_file(char* name_source, program prog){
 
       if (index != 0) {
         index = 0;
+        instruct->line_hexa = translate(instruct->line);
+
+        if (step_to_step_mode && !skip) {
+          input = '\0';
+          printf("\nAssembling line n°%d\n %s { hexadecimal instruction code : %.8x }\n",(instruct->address)/4,instruct->line,instruct->line_hexa);
+          printf("\n--- Press [enter] to continue or [s] if you want to skip to the start of the execution\n");
+          scanf("%c",&input);
+          if (input == 's') skip = 1;
+        }
         instruct = NULL;
         read_line = NULL;
+
       }
     }
   }
@@ -100,7 +120,7 @@ void write_file(char* name_result, program prog){
 
   file_result = fopen(name_result, "w");
   if(file_result == NULL) {
-    perror("Probleme d'ouverture fichier");
+    perror("File opening problem");
     exit(1);
   }
 
@@ -114,14 +134,14 @@ void write_file(char* name_result, program prog){
 
 /*---- TRADUCTION HEXA + EXECUTION PROGRAMME ----*/
 
-void translate_to_hexa(program prog){
+/*void translate_to_hexa(program prog){
   instruction* translater = prog->next;
 
   while(translater != NULL) {
     translater->line_hexa = translate(translater->line);
     translater = translater->next;
   }
-}
+}*/
 
 void execution_pointer_setup(program prog){
   instruction* setup_pointer = prog->next;
@@ -282,8 +302,10 @@ void instruct_execute_pointer(char *line, void (**exec)(int)){
   //return result;
 }
 
-void execution(program prog){
+void execution(program prog, char step_to_step_mode){
   instruction* executed_instruction = prog->next;
+  char input = '\0';
+
   while(executed_instruction != NULL){
     printf("Processing instruction:\n%.8x  { %s }\n\n",executed_instruction->line_hexa, executed_instruction->line);
     (*(executed_instruction->exec))(executed_instruction->line_hexa);
@@ -292,5 +314,27 @@ void execution(program prog){
       if(executed_instruction->address < *pc) executed_instruction = executed_instruction->next;
       else executed_instruction = executed_instruction->prev;
     }
+
+    if (step_to_step_mode) {
+      input = '\0';
+      printf(" --- [r] : display registers; [m] : display memory; [n] : display next instruction; [c] : continue\n");
+      while (input != 'c'){
+        scanf("%c",&input);
+        switch(input) {
+          case 'r' :
+            print_registers();
+            break;
+          case 'm' :
+            print_memory();
+            break;
+          case 'n' :
+            if (executed_instruction != NULL) printf("Next instruction is :\n%.8x  { %s }\n\n",executed_instruction->line_hexa, executed_instruction->line);
+            else printf("Next instruction is : end of program\n");
+            break;
+        }
+      }
+    }
+
   }
+
 }

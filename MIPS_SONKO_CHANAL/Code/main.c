@@ -4,40 +4,58 @@
 int main(int argc, char *argv[]) {
 
   char *name_source, *name_result;
+  char step_to_step_mode = 0; //0 pour directe, 1 pour pas à pas
+  char error_check = 0;
   program prog;
   char input = '\0';
+  printf("          ----------MIPS EMULATOR----------          \n");
 
-  if (argc != 2) printf("ERREUR : Nombre d'arguments non valide => Il nous faut que le fichier source\n");
+  if (argc < 2 || argc > 3) printf("ERROR : Unvalid numbers of arguments => Please specify the source file and the mode (if needed)\n");
   else {
-
+    data_counter = 0;
     name_source = *(argv+1);
     name_result = *(argv+1);
-    test_and_hexified(&name_source, &name_result);
-    prog = init_program();
+
+    if (argc == 3){
+      if (strcmp(argv[2],"-pas")) {
+        printf("Unknown mode : please mark '-pas' if you want the step_to_step mode\n\nQuitting program");
+        error_check = 1;
+      }
+      else step_to_step_mode = 1;
+    }
+    if (!error_check){
+      test_and_hexified(&name_source, &name_result);
+
+      prog = init_program();
+
+      printf("\nSource file : %s\nThe output will be written in : %s\n\n",name_source, name_result);
+
+      read_file(name_source, prog, step_to_step_mode);
+
+      //translate_to_hexa(prog);
+      execution_pointer_setup(prog);
+
+      write_file(name_result, prog);
+
+      init_registers();
+      init_data_memory();
+
+      print_prog(prog);
+
+      printf("**** Press [enter] to start execute ****\n");
+      scanf("%c",&input);
+
+      execution(prog, step_to_step_mode);
+      printf("\n          Final processor state :\n\n");
+      print_registers();
+      print_memory();
+
+      printf("\nProgram finished.\n\n");
 
 
-    read_file(name_source, prog);
-
-    translate_to_hexa(prog);
-    execution_pointer_setup(prog);
-
-    write_file(name_result, prog);
-
-    init_registers();
-    init_data_memory();
-
-    print_prog(prog);
-
-    printf("**** Press enter to start execute ****\n");
-    scanf("%c",&input);
-
-    execution(prog);
-    print_registers();
-    print_memory();
-    printf("\nProgram finished.\n\n");
-
-    free_memory();
-    free_prog(prog);
+      free_memory();
+      free_prog(prog);
+    }
   }
 
   return 0;

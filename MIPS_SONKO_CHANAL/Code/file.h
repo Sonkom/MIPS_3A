@@ -29,16 +29,16 @@ void print_prog(program prog); //Affiche le programme mis dans la liste chaîné
 
 /* ------ LECTURE + ÉCRITURE DE FICHIER ------ */
 
-void read_file(char* name_source, program prog); //Fonction qui lit le fichier source et pose le résultat dans la liste chaînée program
+void read_file(char* name_source, program prog, char step_to_step_mode); //Fonction qui lit le fichier source et pose le résultat dans la liste chaînée program
 
 void write_file(char* name_result, program prog); //Fonction qui écrit le résultat en hexadécimal de le fichier destination
 
 /*---- TRADUCTION HEXA + EXECUTION PROGRAMME ----*/
 
-void translate_to_hexa(program prog); //Fonction qui traduit chaque ligne en son code hexadécimal et la met dans la liste chaînée (dans le champ line_hexa)
+//void translate_to_hexa(program prog); //Fonction qui traduit chaque ligne en son code hexadécimal et la met dans la liste chaînée (dans le champ line_hexa)
 
 void instruct_execute_pointer(char *line, void (**exec)(int)); //Fonction qui modifie le pointeur de fonction de telle sorte qu'elle pointe vers la fonction correspondante
 
 void execution_pointer_setup(program prog); //Fonction qui setup les pointeurs de fonction pour chaque instruction
 
-void execution(program prog); //Execute l'ensemble des instructions d'un programme
+void execution(program prog, char step_to_step_mode); //Execute l'ensemble des instructions d'un programme
