@@ -311,7 +311,7 @@ void execution(program prog, char step_to_step_mode){
     printf("Processing instruction:\n%.8x  { %s }\n\n",executed_instruction->line_hexa, executed_instruction->line);
     error = (*(executed_instruction->exec))(executed_instruction->line_hexa);
 
-    if(error) printf("Program error at 0x%x :\n", executed_instruction->address);
+    if(error) printf("Exception occurs at 0x%x :\n", executed_instruction->address);
     print_error(error);
 
     while(executed_instruction != NULL && executed_instruction->address != *pc && error == 0){

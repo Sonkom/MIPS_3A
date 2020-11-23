@@ -52,7 +52,7 @@ void init_registers(){
 void print_registers(){
   printf("---- Registers state ----\n\n");
   for(int i=0; i<NBR_REGISTERS; i++){
-    printf(" %s : % 8d",registers_name[i], registers[i]);
+    printf(" %s : %-11d",registers_name[i], registers[i]);
     if((i%4==3 && i != 0) || i+1==NBR_REGISTERS) printf("\n");
   }
   printf("\n");
@@ -72,9 +72,13 @@ int exec_ADD(int instruction){
       rt = (instruction & create_mask(16,20))>>16,
       rd = (instruction & create_mask(11,15))>>11;
 
-  if(read_register(rt) > 0 && read_register(rs) => MAX_SIGNED_INT - read_register(rt)) error_code = 0b10;
+  /* ===== Tests Erreurs ==== */
 
-  if(read_register(rt) < 0 && read_register(rs) <=  MIN_SIGNED_INT - read_register(rt)) error_code = 0b11;
+  if(read_register(rt) > 0 && read_register(rs) >= MAX_SIGNED_INT - read_register(rt)) error_code = 0b10; // Overflow
+
+  if(read_register(rt) < 0 && read_register(rs) <=  MIN_SIGNED_INT - read_register(rt)) error_code = 0b11; // Underflow
+
+  /* ======================= */
 
   if(!error_code){
     write_register(rd, read_register(rs) + read_register(rt));
@@ -85,21 +89,34 @@ int exec_ADD(int instruction){
 }
 
 int exec_ADDI(int instruction){
+  int error_code = 0;
   int rs = (instruction & create_mask(21,25))>>21,
       rt = (instruction & create_mask(16,20))>>16,
       imm = instruction & create_mask(0,15);
 
-  if(imm & create_mask(15,15)) imm = (imm & create_mask(0,15)) | create_mask(16,31); //Valeur négative sur 16 bits transformée en valeur négative sur 32 bits
+  if(imm & create_mask(15,15)) imm = imm | create_mask(16,31); // Valeur négative sur 16 bits transformée en valeur négative sur 32 bits
 
-  write_register(rt , read_register(rs)+imm);
-  *pc += 4;
-  return 0;
+  /* ===== Tests Erreurs ==== */
+
+  if(read_register(rt) > 0 && read_register(rs) >= MAX_SIGNED_INT - imm) error_code = 0b10; // Overflow
+
+  if(read_register(rt) < 0 && read_register(rs) <=  MIN_SIGNED_INT - imm) error_code = 0b11; // Underflow
+
+  /* ======================= */
+
+  if(!error_code){
+    write_register(rt , read_register(rs)+imm);
+    *pc += 4;
+  }
+
+  return error_code;
 }
 
 int exec_AND(int instruction){
   int rs = (instruction & create_mask(21,25))>>21,
       rt = (instruction & create_mask(16,20))>>16,
       rd = (instruction & create_mask(11,15))>>11;
+
   write_register(rd, read_register(rs) & read_register(rt));
   *pc += 4;
   return 0;
@@ -110,6 +127,9 @@ int exec_BEQ(int instruction){
   int rs = (instruction & create_mask(21,25))>>21,
       rt = (instruction & create_mask(16,20))>>16,
       offset = instruction & create_mask(0,15);
+
+  if(offset & create_mask(15,15)) offset = offset | create_mask(16,31); // Valeur négative sur 16 bits transformée en valeur négative sur 32 bits
+
   if(read_register(rs)==read_register(rt)){
     *pc += offset << 2;
   }else{
@@ -121,6 +141,9 @@ int exec_BEQ(int instruction){
 int exec_BGTZ(int instruction){
   int rs = (instruction & create_mask(21,25))>>21,
       offset = instruction & create_mask(0,15);
+
+  if(offset & create_mask(15,15)) offset = offset | create_mask(16,31); // Valeur négative sur 16 bits transformée en valeur négative sur 32 bits
+
   if(read_register(rs)>0){
     *pc += offset << 2;
   }else{
@@ -132,6 +155,9 @@ int exec_BGTZ(int instruction){
 int exec_BLEZ(int instruction){
   int rs = (instruction & create_mask(21,25))>>21,
       offset = instruction & create_mask(0,15);
+
+  if(offset & create_mask(15,15)) offset = offset | create_mask(16,31); // Valeur négative sur 16 bits transformée en valeur négative sur 32 bits
+
   if(read_register(rs)<=0){
     *pc += offset << 2;
   }else{
@@ -144,6 +170,9 @@ int exec_BNE(int instruction){
   int rs = (instruction & create_mask(21,25))>>21,
       rt = (instruction & create_mask(16,20))>>16,
       offset = instruction & create_mask(0,15);
+
+  if(offset & create_mask(15,15)) offset = offset | create_mask(16,31); // Valeur négative sur 16 bits transformée en valeur négative sur 32 bits
+
   if(read_register(rs)!=read_register(rt)){
     *pc += offset << 2;
   }else{
@@ -155,15 +184,37 @@ int exec_BNE(int instruction){
 int exec_DIV(int instruction){
   int rs = (instruction & create_mask(21,25))>>21,
       rt = (instruction & create_mask(16,20))>>16;
-  *lo=read_register(rs)/read_register(rt);
+
+  if(read_register(rt) != 0) *lo=read_register(rs)/read_register(rt);
   *hi=read_register(rs)%read_register(rt);
+  *pc += 4;
+
   return 0;
 }
 
+
 int exec_J(int instruction){return 0;}
 int exec_JAL(int instruction){return 0;}
-int exec_JR(int instruction){return 0;}
-int exec_LUI(int instruction){return 0;}
+
+
+int exec_JR(int instruction){
+  int rs = (instruction & create_mask(21,25))>>21;
+
+  *pc=read_register(rs);
+  return 0;
+}
+
+int exec_LUI(int instruction){
+  int rt = (instruction & create_mask(16,20))>>16,
+      imm = instruction & create_mask(0,15);
+      printf("%x\n",imm << 15);
+  write_register(rt, (imm << 16) & create_mask(16,31));
+
+  *pc+=4;
+
+  return 0;
+}
+
 int exec_LW(int instruction){return 0;}
 int exec_MFHI(int instruction){return 0;}
 int exec_MFLO(int instruction){return 0;}
