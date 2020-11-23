@@ -52,7 +52,7 @@ void init_registers(){
 void print_registers(){
   printf("---- Registers state ----\n\n");
   for(int i=0; i<NBR_REGISTERS; i++){
-    printf(" %s : 0x%.8x",registers_name[i], registers[i]);
+    printf(" %s : % 8d",registers_name[i], registers[i]);
     if((i%4==3 && i != 0) || i+1==NBR_REGISTERS) printf("\n");
   }
   printf("\n");
@@ -72,15 +72,9 @@ int exec_ADD(int instruction){
       rt = (instruction & create_mask(16,20))>>16,
       rd = (instruction & create_mask(11,15))>>11;
 
-  if( read_register(rs) > MAX_SIGNED_INT - read_register(rt)){
-    error_code = 0b10;
-    printf("10 : ERREUR : Résultat trop grand pour un signé\n");
-  }
+  if(read_register(rt) > 0 && read_register(rs) => MAX_SIGNED_INT - read_register(rt)) error_code = 0b10;
 
-  if(read_register(rs) < MIN_SIGNED_INT - read_register(rt)){
-    error_code = 0b11;
-    printf("11 : ERREUR : Résultat trop petit pour un signé\n");
-  }
+  if(read_register(rt) < 0 && read_register(rs) <=  MIN_SIGNED_INT - read_register(rt)) error_code = 0b11;
 
   if(!error_code){
     write_register(rd, read_register(rs) + read_register(rt));
@@ -94,6 +88,9 @@ int exec_ADDI(int instruction){
   int rs = (instruction & create_mask(21,25))>>21,
       rt = (instruction & create_mask(16,20))>>16,
       imm = instruction & create_mask(0,15);
+
+  if(imm & create_mask(15,15)) imm = (imm & create_mask(0,15)) | create_mask(16,31); //Valeur négative sur 16 bits transformée en valeur négative sur 32 bits
+
   write_register(rt , read_register(rs)+imm);
   *pc += 4;
   return 0;

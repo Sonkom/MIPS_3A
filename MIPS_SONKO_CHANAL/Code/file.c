@@ -305,12 +305,16 @@ void instruct_execute_pointer(char *line, int (**exec)(int)){
 void execution(program prog, char step_to_step_mode){
   instruction* executed_instruction = prog->next;
   char input = '\0';
+  int error = 0;
 
-  while(executed_instruction != NULL){
+  while(executed_instruction != NULL  && error == 0){
     printf("Processing instruction:\n%.8x  { %s }\n\n",executed_instruction->line_hexa, executed_instruction->line);
-    (*(executed_instruction->exec))(executed_instruction->line_hexa);
+    error = (*(executed_instruction->exec))(executed_instruction->line_hexa);
 
-    while(executed_instruction != NULL && executed_instruction->address != *pc){
+    if(error) printf("Program error at 0x%x :\n", executed_instruction->address);
+    print_error(error);
+
+    while(executed_instruction != NULL && executed_instruction->address != *pc && error == 0){
       if(executed_instruction->address < *pc) executed_instruction = executed_instruction->next;
       else executed_instruction = executed_instruction->prev;
     }
@@ -337,4 +341,17 @@ void execution(program prog, char step_to_step_mode){
 
   }
 
+}
+
+void print_error(int code){
+  switch (code) {
+    case 0b10:
+      printf("ERROR 10 : Signed integer overflow\n");
+      break;
+    case 0b11:
+      printf("ERROR 11 : Signed integer underflow\n");
+      break;
+    default:
+      break;
+  }
 }

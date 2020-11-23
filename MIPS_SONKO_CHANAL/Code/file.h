@@ -42,3 +42,5 @@ void instruct_execute_pointer(char *line, int (**exec)(int)); //Fonction qui mod
 void execution_pointer_setup(program prog); //Fonction qui setup les pointeurs de fonction pour chaque instruction
 
 void execution(program prog, char step_to_step_mode); //Execute l'ensemble des instructions d'un programme
+
+void print_error(int code); //Affiche l'erreur retourné par la fonction d'éxécution
