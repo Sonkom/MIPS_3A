@@ -3,9 +3,10 @@
 
 int main(int argc, char *argv[]) {
 
-  char *name_source, *name_result, *interactive_line_instruct;
+  char *name_source, *name_result;
+  instruction* interactive;
   char step_to_step_mode = 0; //0 pour directe, 1 pour pas à pas
-  char error_check = 0;
+  char error_check = 0, detect_enter = 0;
   program prog;
   char input = '\0';
   printf("          ----------MIPS EMULATOR----------          \n");
@@ -60,18 +61,59 @@ int main(int argc, char *argv[]) {
   else {
     printf("\n---- You are in the interactive mode of the MIPS emulator.");
     printf("\n---- If you want to use a program file, please exit and use './emul-mips your_file -pas (optionnal)'\n");
-    printf("----Please note that your file should be in the 'tests' directory.\n");
+    printf("---- Please note that your file should be in the 'tests' directory.\n");
 
-    interactive_line_instruct = (char *)malloc(sizeof(char) * LENLINE);
+    init_registers();
+    init_data_memory();
 
-    while (strncmp(interactive_line_instruct,"EXIT",4)) {
+    interactive = (instruction *)malloc(sizeof(struct instruction));
+    interactive->address = 0x0;
+    interactive->next = NULL;
+    interactive->prev = NULL;
+
+    while (strncmp(interactive->line,"EXIT",4)) {
       printf("\nEnter your instruction ([EXIT] if you want to quit the emulator):\n");
-      fgets(interactive_line_instruct, LENLINE, stdin);
-      printf("VOICI : %s\n",interactive_line_instruct);
+      fgets(interactive->line, LENLINE, stdin);
+      if (strncmp(interactive->line,"EXIT",4)){
+        interactive->line[find_char_r(interactive->line, '\n', 0, LENLINE)] = '\0';
+
+        interactive->line_hexa = translate(interactive->line);
+        instruct_execute_pointer(interactive->line, &(interactive->exec));
+
+        printf("Processing instruction:\n%.8x  { %s }\n\n",interactive->line_hexa, interactive->line);
+        (*(interactive->exec))(interactive->line_hexa);
+
+        printf("\n--- [enter] to continue ; [r] to print registers ; [m] to print memory\n");
+        do {
+          fflush(stdin);
+          input = fgetc(stdin);
+          fflush(stdin);
+          switch(input) {
+            case 'r' :
+              print_registers();
+              detect_enter = 0;
+              break;
+            case 'm' :
+              print_memory();
+              detect_enter = 0;
+              break;
+            case '\n' :
+              detect_enter = 1;
+              break;
+          }
+          if (!detect_enter) {
+            fflush(stdin);
+            input = fgetc(stdin);
+            fflush(stdin);
+          }
+        } while ((input == 'r') || (input == 'm') || ((input == '\n') && !detect_enter));
+        detect_enter = 0;
+      }
     }
-
-
+    free(interactive);
+    free_memory();
   }
 
+  printf("--------- Quitting emulator ---------\n");
   return 0;
 }
