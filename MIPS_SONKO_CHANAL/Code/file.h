@@ -2,7 +2,7 @@
 
 #include "registers.h"
 
-#define LENLINE 20
+#define LENLINE 30
 
 typedef struct instruction instruction;
 

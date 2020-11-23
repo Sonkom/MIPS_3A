@@ -3,15 +3,15 @@
 
 int main(int argc, char *argv[]) {
 
-  char *name_source, *name_result;
+  char *name_source, *name_result, *interactive_line_instruct;
   char step_to_step_mode = 0; //0 pour directe, 1 pour pas à pas
   char error_check = 0;
   program prog;
   char input = '\0';
   printf("          ----------MIPS EMULATOR----------          \n");
 
-  if (argc < 2 || argc > 3) printf("ERROR : Unvalid numbers of arguments => Please specify the source file and the mode (if needed)\n");
-  else {
+  if (argc > 3) printf("ERROR : Unvalid numbers of arguments => Please specify the source file and the mode (if needed)\n");
+  else if (argc >= 2) {
     data_counter = 0;
     name_source = *(argv+1);
     name_result = *(argv+1);
@@ -56,6 +56,21 @@ int main(int argc, char *argv[]) {
       free_memory();
       free_prog(prog);
     }
+  }
+  else {
+    printf("\n---- You are in the interactive mode of the MIPS emulator.");
+    printf("\n---- If you want to use a program file, please exit and use './emul-mips your_file -pas (optionnal)'\n");
+    printf("----Please note that your file should be in the 'tests' directory.\n");
+
+    interactive_line_instruct = (char *)malloc(sizeof(char) * LENLINE);
+
+    while (strncmp(interactive_line_instruct,"EXIT",4)) {
+      printf("\nEnter your instruction ([EXIT] if you want to quit the emulator):\n");
+      fgets(interactive_line_instruct, LENLINE, stdin);
+      printf("VOICI : %s\n",interactive_line_instruct);
+    }
+
+
   }
 
   return 0;
