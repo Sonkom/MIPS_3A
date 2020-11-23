@@ -66,32 +66,50 @@ void write_register(int index_register, int value){
   registers[index_register] = value;
 }
 
-void exec_ADD(int instruction){
+int exec_ADD(int instruction){
+  int error_code = 0;
   int rs = (instruction & create_mask(21,25))>>21,
       rt = (instruction & create_mask(16,20))>>16,
       rd = (instruction & create_mask(11,15))>>11;
-  write_register(rd, read_register(rs) + read_register(rt));
-  *pc += 4;
+
+  if( read_register(rs) > MAX_SIGNED_INT - read_register(rt)){
+    error_code = 0b10;
+    printf("10 : ERREUR : Résultat trop grand pour un signé\n");
+  }
+
+  if(read_register(rs) < MIN_SIGNED_INT - read_register(rt)){
+    error_code = 0b11;
+    printf("11 : ERREUR : Résultat trop petit pour un signé\n");
+  }
+
+  if(!error_code){
+    write_register(rd, read_register(rs) + read_register(rt));
+    *pc += 4;
+  }
+
+  return error_code;
 }
 
-void exec_ADDI(int instruction){
+int exec_ADDI(int instruction){
   int rs = (instruction & create_mask(21,25))>>21,
       rt = (instruction & create_mask(16,20))>>16,
       imm = instruction & create_mask(0,15);
   write_register(rt , read_register(rs)+imm);
   *pc += 4;
+  return 0;
 }
 
-void exec_AND(int instruction){
+int exec_AND(int instruction){
   int rs = (instruction & create_mask(21,25))>>21,
       rt = (instruction & create_mask(16,20))>>16,
       rd = (instruction & create_mask(11,15))>>11;
   write_register(rd, read_register(rs) & read_register(rt));
   *pc += 4;
+  return 0;
 }
 
 
-void exec_BEQ(int instruction){
+int exec_BEQ(int instruction){
   int rs = (instruction & create_mask(21,25))>>21,
       rt = (instruction & create_mask(16,20))>>16,
       offset = instruction & create_mask(0,15);
@@ -100,9 +118,10 @@ void exec_BEQ(int instruction){
   }else{
     *pc += 4;
   }
+  return 0;
 }
 
-void exec_BGTZ(int instruction){
+int exec_BGTZ(int instruction){
   int rs = (instruction & create_mask(21,25))>>21,
       offset = instruction & create_mask(0,15);
   if(read_register(rs)>0){
@@ -110,9 +129,10 @@ void exec_BGTZ(int instruction){
   }else{
     *pc += 4;
   }
+  return 0;
 }
 
-void exec_BLEZ(int instruction){
+int exec_BLEZ(int instruction){
   int rs = (instruction & create_mask(21,25))>>21,
       offset = instruction & create_mask(0,15);
   if(read_register(rs)<=0){
@@ -120,9 +140,10 @@ void exec_BLEZ(int instruction){
   }else{
     *pc += 4;
   }
+  return 0;
 }
 
-void exec_BNE(int instruction){
+int exec_BNE(int instruction){
   int rs = (instruction & create_mask(21,25))>>21,
       rt = (instruction & create_mask(16,20))>>16,
       offset = instruction & create_mask(0,15);
@@ -131,49 +152,51 @@ void exec_BNE(int instruction){
   }else{
     *pc += 4;
   }
+  return 0;
 }
 
-void exec_DIV(int instruction){
+int exec_DIV(int instruction){
   int rs = (instruction & create_mask(21,25))>>21,
       rt = (instruction & create_mask(16,20))>>16;
   *lo=read_register(rs)/read_register(rt);
   *hi=read_register(rs)%read_register(rt);
+  return 0;
 }
 
-void exec_J(int instruction){}
-void exec_JAL(int instruction){}
-void exec_JR(int instruction){}
-void exec_LUI(int instruction){}
-void exec_LW(int instruction){}
-void exec_MFHI(int instruction){}
-void exec_MFLO(int instruction){}
-void exec_MULT(int instruction){}
-void exec_NOP(int instruction){}
-void exec_OR(int instruction){}
-void exec_ROTR(int instruction){}
-void exec_SLL(int instruction){}
-void exec_SLT(int instruction){}
-void exec_SRL(int instruction){}
-void exec_SUB(int instruction){}
-void exec_SW(int instruction){}
-void exec_XOR(int instruction){}
-void exec_ADDIU(int instruction){}
-void exec_ADDU(int instruction){}
-void exec_ANDI(int instruction){}
-void exec_BGEZ(int instruction){}
-void exec_BGEZAL(int instruction){}
-void exec_BLTZ(int instruction){}
-void exec_BLTZAL(int instruction){}
-void exec_DIVU(int instruction){}
-void exec_LB(int instruction){}
-void exec_MULTU(int instruction){}
-void exec_ORI(int instruction){}
-void exec_SB(int instruction){}
-void exec_SLLV(int instruction){}
-void exec_SLTI(int instruction){}
-void exec_SLTIU(int instruction){}
-void exec_SLTU(int instruction){}
-void exec_SRA(int instruction){}
-void exec_SRLV(int instruction){}
-void exec_SUBU(int instruction){}
-void exec_XORI(int instruction){}
+int exec_J(int instruction){return 0;}
+int exec_JAL(int instruction){return 0;}
+int exec_JR(int instruction){return 0;}
+int exec_LUI(int instruction){return 0;}
+int exec_LW(int instruction){return 0;}
+int exec_MFHI(int instruction){return 0;}
+int exec_MFLO(int instruction){return 0;}
+int exec_MULT(int instruction){return 0;}
+int exec_NOP(int instruction){return 0;}
+int exec_OR(int instruction){return 0;}
+int exec_ROTR(int instruction){return 0;}
+int exec_SLL(int instruction){return 0;}
+int exec_SLT(int instruction){return 0;}
+int exec_SRL(int instruction){return 0;}
+int exec_SUB(int instruction){return 0;}
+int exec_SW(int instruction){return 0;}
+int exec_XOR(int instruction){return 0;}
+int exec_ADDIU(int instruction){return 0;}
+int exec_ADDU(int instruction){return 0;}
+int exec_ANDI(int instruction){return 0;}
+int exec_BGEZ(int instruction){return 0;}
+int exec_BGEZAL(int instruction){return 0;}
+int exec_BLTZ(int instruction){return 0;}
+int exec_BLTZAL(int instruction){return 0;}
+int exec_DIVU(int instruction){return 0;}
+int exec_LB(int instruction){return 0;}
+int exec_MULTU(int instruction){return 0;}
+int exec_ORI(int instruction){return 0;}
+int exec_SB(int instruction){return 0;}
+int exec_SLLV(int instruction){return 0;}
+int exec_SLTI(int instruction){return 0;}
+int exec_SLTIU(int instruction){return 0;}
+int exec_SLTU(int instruction){return 0;}
+int exec_SRA(int instruction){return 0;}
+int exec_SRLV(int instruction){return 0;}
+int exec_SUBU(int instruction){return 0;}
+int exec_XORI(int instruction){return 0;}

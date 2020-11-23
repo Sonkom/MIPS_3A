@@ -152,7 +152,7 @@ void execution_pointer_setup(program prog){
   }
 }
 
-void instruct_execute_pointer(char *line, void (**exec)(int)){
+void instruct_execute_pointer(char *line, int (**exec)(int)){
   int inst_len,i=0;
 
   while(*(line+i) != ' ' && *(line+i+1) != '\0') i++;
