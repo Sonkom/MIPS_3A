@@ -71,12 +71,13 @@ int read_data(unsigned int address){
 }
 
 char write_data(unsigned int address, int data) {
-  cell *search_address = data_memory, *writer = data_memory, *buffer = NULL;
+  cell *search_address = data_memory, *writer = data_memory, *next_buffer = NULL, *prev_buffer = NULL;
   char data_bytes[4];
   char overflow_check = 1;
 
   /* Recherche de la cellule d'adresse donnée */
-  while ((search_address != NULL) && (address <= search_address->address)) {
+  while ((search_address != NULL) && (address >= search_address->address)) {
+    prev_buffer = writer;
     writer = search_address;
     search_address = search_address->next;
   }
@@ -88,25 +89,50 @@ char write_data(unsigned int address, int data) {
   data_bytes[3] = data & 0xFF;
 
   /* Ecriture en mémoire */
-  if (writer != NULL) buffer = writer->next;
+  if (writer != NULL) next_buffer = writer->next;
 
-  for (unsigned int index = 0; (index < 4) && overflow_check; index++){
+  /*for (unsigned int index = 0; (index < 4) && overflow_check; index++){
     if (writer == NULL) {
       writer = add_cell(address+index, data_bytes[index]);
       if (writer != NULL) writer = writer->next;
       else overflow_check = 0;
+      prev_buffer->next = writer;
     } else if (writer->address == address+index) {
       writer->data = data_bytes[index];
+      prev_buffer = writer;
       writer = writer->next;
+      if (buffer != NULL) buffer = buffer->next;
     } else {
       writer->next = add_cell(address+index, data_bytes[index]);
       if (writer->next != NULL) {
-        writer->next->next = buffer;
-        writer = buffer;
+        prev_buffer = writer;
+        writer = writer->next;
+        writer->next = buffer;
       }
       else overflow_check = 0;
+      if (buffer != NULL) buffer = buffer->next;
     }
-    if (buffer != NULL) buffer = buffer->next;
+  }*/
+
+  for (int index = 0; (index < 4) && overflow_check; index++){
+    if ((writer != NULL) && (writer->address == address + index)) {
+      writer->data = data_bytes[index];
+      prev_buffer = writer;
+      writer = writer->next;
+      if (next_buffer != NULL) next_buffer = next_buffer->next;
+    } else if ((writer != NULL) && (writer->address > address + index)){
+      next_buffer = writer;
+      writer = add_cell(address+index, data_bytes[index]);
+      if(writer != NULL) prev_buffer->next = writer;
+      else overflow_check = 0;
+    } else {
+      if (writer != NULL) prev_buffer = writer;
+      writer = add_cell(address+index, data_bytes[index]);
+      if(writer != NULL) prev_buffer->next = writer;
+      else overflow_check = 0;
+    }
   }
+  writer->next = next_buffer;
+
   return overflow_check;
 }
