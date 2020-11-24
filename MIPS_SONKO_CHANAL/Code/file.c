@@ -351,6 +351,9 @@ void print_error(int code){
     case 0b11:
       printf("ERROR 11 : Signed integer underflow\n");
       break;
+    case 0b100:
+      printf("ERROR 100 : Illegal address\n");
+      break;
     default:
       break;
   }

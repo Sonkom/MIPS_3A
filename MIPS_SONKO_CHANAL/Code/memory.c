@@ -29,9 +29,10 @@ void print_memory(void){
 
   printf("---- Memory State ----\n\n");
   while(memory_printer != NULL) {
-    printf("      @%.8x : %.2x",memory_printer->address, memory_printer->data);
+    if(memory_printer->address%4 == 0) printf("  @%.8x : |",memory_printer->address);
+    printf(" %.2x |", memory_printer->data);
     index++;
-    if (index == 0%4) printf("\n");
+    if (index%12 == 0) printf("\n");
     memory_printer = memory_printer->next;
   }
   printf("\n");

@@ -229,9 +229,28 @@ int exec_LW(int instruction){
   return 0;
 }
 
-int exec_MFHI(int instruction){return 0;}
-int exec_MFLO(int instruction){return 0;}
-int exec_MULT(int instruction){return 0;}
+int exec_MFHI(int instruction){
+  int rd = (instruction & create_mask(11,15))>>11;
+
+  write_register(rd,*hi);
+  return 0;
+}
+
+int exec_MFLO(int instruction){
+  int rd = (instruction & create_mask(11,15))>>11;
+
+  write_register(rd,*lo);
+  return 0;
+}
+
+int exec_MULT(int instruction){
+  int base = (instruction & create_mask(21,25))>>21,
+      rt = (instruction & create_mask(16,20))>>16;
+
+
+  return 0;
+}
+
 int exec_NOP(int instruction){return 0;}
 int exec_OR(int instruction){return 0;}
 int exec_ROTR(int instruction){return 0;}
@@ -249,13 +268,18 @@ int exec_SW(int instruction){
 
   if(offset & create_mask(15,15)) offset = offset | create_mask(16,31); // Valeur négative sur 16 bits transformée en valeur négative sur 32 bits
 
-  if(offset%4 =! 0 && read_register(rt) > 0xFFFFFFFF>>(offset%4*8)) error_code = 0b100;
+  /* ===== Tests Erreurs ==== */
 
-  if(!write_data(read_register(base) + offset,read_register(rt))) error_code = 0b101;
+  if(offset%4 != 0) error_code = 0b100;
 
-  *pc+=4;
+  /* ======================= */
 
-  return 0;
+  if(!error_code){
+    write_data(read_register(base) + offset,read_register(rt));
+    *pc+=4;
+  }
+
+  return error_code;
 }
 
 
