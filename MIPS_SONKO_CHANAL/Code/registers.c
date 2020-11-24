@@ -201,21 +201,34 @@ int exec_JR(int instruction){
   int rs = (instruction & create_mask(21,25))>>21;
 
   *pc=read_register(rs);
+
   return 0;
 }
 
 int exec_LUI(int instruction){
   int rt = (instruction & create_mask(16,20))>>16,
       imm = instruction & create_mask(0,15);
-      printf("%x\n",imm << 15);
+
   write_register(rt, (imm << 16) & create_mask(16,31));
+  *pc+=4;
+
+  return 0;
+}
+
+int exec_LW(int instruction){
+  int base = (instruction & create_mask(21,25))>>21,
+      rt = (instruction & create_mask(16,20))>>16,
+      offset = instruction & create_mask(0,15);
+
+  if(offset & create_mask(15,15)) offset = offset | create_mask(16,31); // Valeur négative sur 16 bits transformée en valeur négative sur 32 bits
+
+  write_register(rt,read_data(read_register(base) + offset));
 
   *pc+=4;
 
   return 0;
 }
 
-int exec_LW(int instruction){return 0;}
 int exec_MFHI(int instruction){return 0;}
 int exec_MFLO(int instruction){return 0;}
 int exec_MULT(int instruction){return 0;}
@@ -226,7 +239,26 @@ int exec_SLL(int instruction){return 0;}
 int exec_SLT(int instruction){return 0;}
 int exec_SRL(int instruction){return 0;}
 int exec_SUB(int instruction){return 0;}
-int exec_SW(int instruction){return 0;}
+
+
+int exec_SW(int instruction){
+  int error_code = 0;
+  int base = (instruction & create_mask(21,25))>>21,
+      rt = (instruction & create_mask(16,20))>>16,
+      offset = instruction & create_mask(0,15);
+
+  if(offset & create_mask(15,15)) offset = offset | create_mask(16,31); // Valeur négative sur 16 bits transformée en valeur négative sur 32 bits
+
+  if(offset%4 =! 0 && read_register(rt) > 0xFFFFFFFF>>(offset%4*8)) error_code = 0b100;
+
+  if(!write_data(read_register(base) + offset,read_register(rt))) error_code = 0b101;
+
+  *pc+=4;
+
+  return 0;
+}
+
+
 int exec_XOR(int instruction){return 0;}
 int exec_ADDIU(int instruction){return 0;}
 int exec_ADDU(int instruction){return 0;}
