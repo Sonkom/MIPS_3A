@@ -343,6 +343,55 @@ void execution(program prog, char step_to_step_mode){
 
 }
 
+void interactive_mode(void){
+  char input = '\0',  detect_enter = 0;
+  instruction *interactive = (instruction *)malloc(sizeof(struct instruction));
+  interactive->address = 0x0;
+  interactive->next = NULL;
+  interactive->prev = NULL;
+
+  while (strncmp(interactive->line,"EXIT",4)) {
+    printf("\nEnter your instruction ([EXIT] if you want to quit the emulator):\n");
+    fgets(interactive->line, LENLINE, stdin);
+    if (strncmp(interactive->line,"EXIT",4)){
+      interactive->line[find_char_r(interactive->line, '\n', 0, LENLINE)] = '\0';
+
+      interactive->line_hexa = translate(interactive->line);
+      instruct_execute_pointer(interactive->line, &(interactive->exec));
+
+      printf("Processing instruction:\n%.8x  { %s }\n\n",interactive->line_hexa, interactive->line);
+      (*(interactive->exec))(interactive->line_hexa);
+
+      printf("\n--- [enter] to continue ; [r] to print registers ; [m] to print memory\n");
+      do {
+        fflush(stdin);
+        input = fgetc(stdin);
+        fflush(stdin);
+        switch(input) {
+          case 'r' :
+            print_registers();
+            detect_enter = 0;
+            break;
+          case 'm' :
+            print_memory();
+            detect_enter = 0;
+            break;
+          case '\n' :
+            detect_enter = 1;
+            break;
+        }
+        if (!detect_enter) {
+          fflush(stdin);
+          input = fgetc(stdin);
+          fflush(stdin);
+        }
+      } while ((input == 'r') || (input == 'm') || ((input == '\n') && !detect_enter));
+      detect_enter = 0;
+    }
+  }
+  free(interactive);
+}
+
 void print_error(int code){
   switch (code) {
     case 0b10:

@@ -43,4 +43,6 @@ void execution_pointer_setup(program prog); //Fonction qui setup les pointeurs d
 
 void execution(program prog, char step_to_step_mode); //Execute l'ensemble des instructions d'un programme
 
+void interactive_mode(void); //Lance le mode interactif de l'émulateur
+
 void print_error(int code); //Affiche l'erreur retourné par la fonction d'éxécution

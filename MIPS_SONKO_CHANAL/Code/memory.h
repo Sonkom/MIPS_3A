@@ -6,7 +6,7 @@ typedef struct cell cell;
 
 struct cell {
   unsigned int address; /* Addresse de l'instruction */
-  char data ; /* contenue de la cellule */
+  unsigned char data ; /* contenue de la cellule */
   cell* next ; /* adresse du successeur */
 };
 
