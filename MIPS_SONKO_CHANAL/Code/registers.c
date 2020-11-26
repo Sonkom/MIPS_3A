@@ -119,6 +119,7 @@ int exec_AND(int instruction){
 
   write_register(rd, read_register(rs) & read_register(rt));
   *pc += 4;
+
   return 0;
 }
 
@@ -223,7 +224,6 @@ int exec_LW(int instruction){
   if(offset & create_mask(15,15)) offset = offset | create_mask(16,31); // Valeur négative sur 16 bits transformée en valeur négative sur 32 bits
 
   write_register(rt,read_data(read_register(base) + offset));
-
   *pc+=4;
 
   return 0;
@@ -233,6 +233,8 @@ int exec_MFHI(int instruction){
   int rd = (instruction & create_mask(11,15))>>11;
 
   write_register(rd,*hi);
+  *pc+=4;
+
   return 0;
 }
 
@@ -240,24 +242,95 @@ int exec_MFLO(int instruction){
   int rd = (instruction & create_mask(11,15))>>11;
 
   write_register(rd,*lo);
+  *pc+=4;
+
   return 0;
 }
 
 int exec_MULT(int instruction){
-  int base = (instruction & create_mask(21,25))>>21,
+  int rs = (instruction & create_mask(21,25))>>21,
       rt = (instruction & create_mask(16,20))>>16;
 
+  long res_64 = (long)read_register(rs)*(long)read_register(rt);
+
+  *lo=res_64 & create_mask(0,31);
+  *hi=res_64 >> 32;
+  *pc+=4;
 
   return 0;
 }
 
-int exec_NOP(int instruction){return 0;}
-int exec_OR(int instruction){return 0;}
-int exec_ROTR(int instruction){return 0;}
-int exec_SLL(int instruction){return 0;}
-int exec_SLT(int instruction){return 0;}
-int exec_SRL(int instruction){return 0;}
-int exec_SUB(int instruction){return 0;}
+int exec_NOP(int instruction){
+  *pc+=4;
+  return 0;
+}
+
+int exec_OR(int instruction){
+  int rs = (instruction & create_mask(21,25))>>21,
+      rt = (instruction & create_mask(16,20))>>16,
+      rd = (instruction & create_mask(11,15))>>11;
+
+  write_register(rd, read_register(rs) | read_register(rt));
+  *pc += 4;
+
+  return 0;
+}
+
+int exec_ROTR(int instruction){
+  int rt = (instruction & create_mask(16,20))>>16,
+      rd = (instruction & create_mask(11,15))>>11,
+      sa = (instruction & create_mask(6,10))>>6;
+
+  int rt_value = read_register(rt);
+
+  for(int i=0; i<sa; i++){
+    if((rt_value & create_mask(31,31)) == create_mask(31,31)) rt_value = (rt_value << 1) + 1;
+    else rt_value = rt_value << 1;
+  }
+
+  write_register(rd, rt_value);
+  *pc+=4;
+
+  return 0;
+}
+
+int exec_SLL(int instruction){
+  int rt = (instruction & create_mask(16,20))>>16,
+      rd = (instruction & create_mask(11,15))>>11,
+      sa = (instruction & create_mask(6,10))>>6;
+
+  write_register(rd, read_register(rt) << sa);
+  *pc+=4;
+
+  return 0;
+}
+
+int exec_SLT(int instruction){
+  int rs = (instruction & create_mask(21,25))>>21,
+      rt = (instruction & create_mask(16,20))>>16,
+      rd = (instruction & create_mask(11,15))>>11;
+
+  write_register(rd, read_register(rs) < read_register(rt));
+  *pc+=4;
+
+  return 0;
+}
+
+int exec_SRL(int instruction){
+  int rt = (instruction & create_mask(16,20))>>16,
+      rd = (instruction & create_mask(11,15))>>11,
+      sa = (instruction & create_mask(6,10))>>6;
+
+  write_register(rd, read_register(rt) >> sa);
+  *pc+=4;
+
+  return 0;
+}
+
+int exec_SUB(int instruction){
+
+  return 0;
+}
 
 
 int exec_SW(int instruction){
@@ -282,8 +355,18 @@ int exec_SW(int instruction){
   return error_code;
 }
 
+int exec_XOR(int instruction){
+  int rs = (instruction & create_mask(21,25))>>21,
+      rt = (instruction & create_mask(16,20))>>16,
+      rd = (instruction & create_mask(11,15))>>11;
 
-int exec_XOR(int instruction){return 0;}
+  write_register(rd, read_register(rs) ^ read_register(rt));
+  *pc += 4;
+
+  return 0;
+}
+
+
 int exec_ADDIU(int instruction){return 0;}
 int exec_ADDU(int instruction){return 0;}
 int exec_ANDI(int instruction){return 0;}
