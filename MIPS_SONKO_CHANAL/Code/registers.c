@@ -74,9 +74,9 @@ int exec_ADD(int instruction){
 
   /* ===== Tests Erreurs ==== */
 
-  if(read_register(rt) > 0 && read_register(rs) >= MAX_SIGNED_INT - read_register(rt)) error_code = 0b10; // Overflow
+  if(read_register(rt) > 0 && read_register(rs) > MAX_SIGNED_INT - read_register(rt)) error_code = 0b10; // Overflow
 
-  if(read_register(rt) < 0 && read_register(rs) <=  MIN_SIGNED_INT - read_register(rt)) error_code = 0b11; // Underflow
+  if(read_register(rt) < 0 && read_register(rs) <  MIN_SIGNED_INT - read_register(rt)) error_code = 0b11; // Underflow
 
   /* ======================= */
 
@@ -98,9 +98,9 @@ int exec_ADDI(int instruction){
 
   /* ===== Tests Erreurs ==== */
 
-  if(read_register(rt) > 0 && read_register(rs) >= MAX_SIGNED_INT - imm) error_code = 0b10; // Overflow
+  if(read_register(rt) > 0 && read_register(rs) > MAX_SIGNED_INT - imm) error_code = 0b10; // Overflow
 
-  if(read_register(rt) < 0 && read_register(rs) <=  MIN_SIGNED_INT - imm) error_code = 0b11; // Underflow
+  if(read_register(rt) < 0 && read_register(rs) < MIN_SIGNED_INT - imm) error_code = 0b11; // Underflow
 
   /* ======================= */
 
@@ -328,8 +328,26 @@ int exec_SRL(int instruction){
 }
 
 int exec_SUB(int instruction){
+  int error_code = 0;
+  int rs = (instruction & create_mask(21,25))>>21,
+      rt = (instruction & create_mask(16,20))>>16,
+      rd = (instruction & create_mask(11,15))>>11;
+      printf("%d - %d\n", read_register(rs) , read_register(rt));
 
-  return 0;
+  /* ===== Tests Erreurs ==== */
+
+  if(read_register(rs) > 0 && read_register(rs) > MAX_SIGNED_INT + read_register(rt)) error_code = 0b10; // Overflow
+
+  if(read_register(rs) < 0 && read_register(rs) <  MIN_SIGNED_INT + read_register(rt)) error_code = 0b11; // Underflow
+
+  /* ======================= */
+
+  if(!error_code){
+    write_register(rd, read_register(rs) - read_register(rt));
+    *pc += 4;
+  }
+
+  return error_code;
 }
 
 
