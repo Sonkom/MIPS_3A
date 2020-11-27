@@ -2,7 +2,28 @@
 #include <stdint.h>
 #include "function.h"
 
+#define LENLABEL 69
 
+/*--------- LABEL ---------*/
+typedef struct label label;
+
+struct label {
+  char label_name[LENLABEL];
+  unsigned int address;
+  label *next;
+};
+
+label* label_list;
+
+void init_label_list(void); // Initialise la liste chaînée de label
+
+label* add_label(void); // Ajoute un label dans la liste chaînée de label
+
+void free_label(void); // Libère la liste chaînée éponyme
+
+unsigned int find_adress(char label_name[LENLABEL]); // Retourne l'adresse du label dont le nom est donné en argument
+
+/*--------- TRADUCTION ---------*/
 int translate(char* line);
 
 /*--------- GENERAL ---------*/

@@ -2,6 +2,45 @@
 
 #include "translation.h"
 
+void init_label_list(void){
+  label_list list = NULL;
+}
+
+label* add_label(void){
+  label* new_label = label_list, prev_label = NULL;
+  while (new_label != NULL) {
+    prev_label = new_label;
+    new_label = new_label->next;
+  }
+  new_label = (label *)malloc(sizeof(struct label));
+  if (prev_label != NULL) prev_label->next = new_label;
+
+  return new_label;
+}
+
+void free_label(void){
+  label* buffer = label_list, delete;
+  while (delete != NULL){
+    delete = buffer;
+    buffer = buffer->next;
+    free(delete);
+  }
+}
+
+unsigned int find_adress(char label_name[LENLABEL]){
+  label* curent_label = label_list;
+  unsigned int address = 1;
+
+  while(strcmp(label_name, list->label_name) != 0 && curent_label != NULL){
+    curent_label = curent_label->next;
+  }
+  if(curent_label == NULL)printf("LABEL UNKNOWN\n");
+  else address = curent_label->address;
+
+  return address;
+}
+
+
 int translate(char* line){
   int result,inst_len,i=0,j=0,end_op;
   int op[3];
@@ -98,10 +137,14 @@ int translate(char* line){
     result = translate_LW(op[0],op[1],op[2]);
 
   }else if(!strncmp(line, "J", inst_len)){
-    result = translate_J(op[0]);
+    char label_name[LENLABEL];
+    strcpy(label_name, line+2);
+    result = translate_J(find_adress(label_name));
 
   }else if(!strncmp(line, "JAL", inst_len)){
-    result = translate_JAL(op[0]);
+    char label_name[LENLABEL];
+    strcpy(label_name, line+2);
+    result = translate_JAL(find_adress(label_name));
 
   }else if(!strncmp(line, "ADDIU", inst_len)){
     result = translate_ADDIU(op[0],op[1],op[2]);
@@ -279,11 +322,11 @@ int translate_LW(int rt, int offset, int base){
 }
 
 /*--------- JUMP ---------*/
-int translate_J(int instr_index){
+int translate_J(unsigned int instr_index){
   return translate_jump(0b000010, instr_index);
 }
 
-int translate_JAL(int instr_index){
+int translate_JAL(unsigned int instr_index){
   return translate_jump(0b000011, instr_index);
 }
 
