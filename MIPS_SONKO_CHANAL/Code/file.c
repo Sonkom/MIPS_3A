@@ -24,6 +24,7 @@ instruction* add_instruct(program prog) {
 
     while (last->next != NULL) last = last->next;
     last->next = instruct;
+    instruct->prev = last;
   }
   return instruct;
 }

@@ -13,6 +13,7 @@ label* add_label(void){
     new_label = new_label->next;
   }
   new_label = (label *)malloc(sizeof(struct label));
+  if (label_list == NULL) label_list = new_label;
   if (prev_label != NULL) prev_label->next = new_label;
 
   return new_label;
@@ -32,12 +33,13 @@ unsigned int find_address(char label_name[LENLINE]){
   unsigned int address = 1;
 
   if (current_label != NULL){
-    while(strcmp(label_name, current_label->label_name) != 0 && current_label != NULL){
+    while(current_label != NULL && strcmp(label_name, current_label->label_name) != 0){
       current_label = current_label->next;
     }
     if(current_label == NULL)printf("LABEL UNKNOWN\n");
     else address = current_label->address;
   }
+
   return address;
 }
 
@@ -144,7 +146,7 @@ int translate(char* line){
 
   }else if(!strncmp(line, "JAL", inst_len)){
     char label_name[LENLINE];
-    strcpy(label_name, line+2);
+    strcpy(label_name, line+4);
     result = translate_JAL(find_address(label_name));
 
   }else if(!strncmp(line, "ADDIU", inst_len)){
