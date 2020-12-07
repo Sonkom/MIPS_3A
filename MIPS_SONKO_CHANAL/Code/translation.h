@@ -2,13 +2,13 @@
 #include <stdint.h>
 #include "function.h"
 
-#define LENLABEL 69
+#define LENLINE 30
 
 /*--------- LABEL ---------*/
 typedef struct label label;
 
 struct label {
-  char label_name[LENLABEL];
+  char label_name[LENLINE];
   unsigned int address;
   label *next;
 };
@@ -21,7 +21,7 @@ label* add_label(void); // Ajoute un label dans la liste chaînée de label
 
 void free_label(void); // Libère la liste chaînée éponyme
 
-unsigned int find_adress(char label_name[LENLABEL]); // Retourne l'adresse du label dont le nom est donné en argument
+unsigned int find_address(char label_name[LENLINE]); // Retourne l'adresse du label dont le nom est donné en argument
 
 /*--------- TRADUCTION ---------*/
 int translate(char* line);
@@ -61,8 +61,8 @@ int translate_SW(int rt, int offset, int base);
 int translate_LW(int rt, int offset, int base);
 
 /*--------- JUMP ---------*/
-int translate_J(int instr_index);
-int translate_JAL(int instr_index);
+int translate_J(unsigned int instr_index);
+int translate_JAL(unsigned int instr_index);
 
 /*--------- OPT ---------*/
 int translate_ADDIU(int rt, int rs, int imm);

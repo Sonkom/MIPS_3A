@@ -53,11 +53,12 @@ void print_prog(program prog) {
 
 void read_file(char* name_source, program prog, char step_to_step_mode){
   FILE *file_source;
-  char character, *read_line = NULL;
+  char character, read_line[LENLINE];
   int index = 0, is_comment = 0;
   char overflow_check = 1, input = '\0', skip = 0;
   unsigned int instruct_address = 0;
   instruction* instruct = NULL;
+  label* lab = NULL;
 
   file_source = fopen(name_source, "r");
   if(file_source == NULL) {
@@ -69,45 +70,58 @@ void read_file(char* name_source, program prog, char step_to_step_mode){
 
     fscanf(file_source, "%c", &character);
 
-    if(character != '\n' && character != '\r'){
+    if(character != '\n' && character != '\r' && character != ':'){
 
       if (character == '#') is_comment = 1;
       if (!is_comment && (!((index == 0) && (character == ' '))))
         {
           if (instruct == NULL){
-            instruct = add_instruct(prog);
-            if (instruct == NULL) overflow_check = 0;
-            else {
-              read_line = instruct->line;
-              instruct->address = instruct_address;
-              instruct_address+=4;
-              data_counter+=4;
-            }
           }
           read_line[index] = character;
           index++;
         }
 
     } else {
-      if (read_line != NULL) read_line[index] = '\0';
-      is_comment = 0;
+        if (read_line != NULL) read_line[index] = '\0';
+        is_comment = 0;
 
+        if (character == ':') {
+          index = 0;
+          if (find_address(read_line)){
+            lab = add_label();
+            strcpy(lab->label_name, read_line);
+            lab->address = instruct_address;
+          }
 
-      if (index != 0) {
-        index = 0;
-        instruct->line_hexa = translate(instruct->line);
+          if (step_to_step_mode && !skip && overflow_check) {
+            input = '\0';
+            printf("\nAssembling label for instruction n°%d\nName : %s\nAddress : %.8x\n",(lab->address)/4,lab->label_name,(lab->address));
+            printf("\n--- Press [enter] to continue or [s] if you want to skip to the start of the execution\n");
+            scanf("%c",&input);
+            if (input == 's') skip = 1;
+          }
 
-        if (step_to_step_mode && !skip) {
-          input = '\0';
-          printf("\nAssembling line n°%d\n %s { hexadecimal instruction code : %.8x }\n",(instruct->address)/4,instruct->line,instruct->line_hexa);
-          printf("\n--- Press [enter] to continue or [s] if you want to skip to the start of the execution\n");
-          scanf("%c",&input);
-          if (input == 's') skip = 1;
+        } else {
+          if (index != 0) {
+            index = 0;
+            instruct = add_instruct(prog);
+            if (instruct == NULL) overflow_check = 0;
+            else instruct->address = instruct_address;
+            instruct->line_hexa = translate(read_line);
+            strcpy(instruct->line, read_line);
+            instruct_address+=4;
+            data_counter+=4;
+
+            if (step_to_step_mode && !skip && overflow_check) {
+              input = '\0';
+              printf("\nAssembling line n°%d\n %s { hexadecimal instruction code : %.8x }\n",(instruct->address)/4,instruct->line,instruct->line_hexa);
+              printf("\n--- Press [enter] to continue or [s] if you want to skip to the start of the execution\n");
+              scanf("%c",&input);
+              if (input == 's') skip = 1;
+            }
+            instruct = NULL;
+          }
         }
-        instruct = NULL;
-        read_line = NULL;
-
-      }
     }
   }
   fclose(file_source);

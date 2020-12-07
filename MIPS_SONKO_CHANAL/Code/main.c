@@ -27,6 +27,7 @@ int main(int argc, char *argv[]) {
       test_and_hexified(&name_source, &name_result);
 
       prog = init_program();
+      init_label_list();
 
       printf("\nSource file : %s\nThe output will be written in : %s\n\n",name_source, name_result);
 

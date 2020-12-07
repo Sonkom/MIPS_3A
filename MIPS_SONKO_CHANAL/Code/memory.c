@@ -40,12 +40,12 @@ void print_memory(void){
 }
 
 void free_memory(void){
-  cell *buffer1 = data_memory, *buffer2 = NULL;
+  cell *buffer = data_memory, *delete = NULL;
 
-  while (buffer1 != NULL){
-    buffer2 = buffer1;
-    buffer1 = buffer1->next;
-    free(buffer2);
+  while (buffer != NULL){
+    delete = buffer;
+    buffer = buffer->next;
+    free(delete);
   }
 }
 

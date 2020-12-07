@@ -3,11 +3,11 @@
 #include "translation.h"
 
 void init_label_list(void){
-  label_list list = NULL;
+  label_list = NULL;
 }
 
 label* add_label(void){
-  label* new_label = label_list, prev_label = NULL;
+  label* new_label = label_list, *prev_label = NULL;
   while (new_label != NULL) {
     prev_label = new_label;
     new_label = new_label->next;
@@ -19,7 +19,7 @@ label* add_label(void){
 }
 
 void free_label(void){
-  label* buffer = label_list, delete;
+  label* buffer = label_list, *delete;
   while (delete != NULL){
     delete = buffer;
     buffer = buffer->next;
@@ -27,16 +27,17 @@ void free_label(void){
   }
 }
 
-unsigned int find_adress(char label_name[LENLABEL]){
-  label* curent_label = label_list;
+unsigned int find_address(char label_name[LENLINE]){
+  label* current_label = label_list;
   unsigned int address = 1;
 
-  while(strcmp(label_name, list->label_name) != 0 && curent_label != NULL){
-    curent_label = curent_label->next;
+  if (current_label != NULL){
+    while(strcmp(label_name, current_label->label_name) != 0 && current_label != NULL){
+      current_label = current_label->next;
+    }
+    if(current_label == NULL)printf("LABEL UNKNOWN\n");
+    else address = current_label->address;
   }
-  if(curent_label == NULL)printf("LABEL UNKNOWN\n");
-  else address = curent_label->address;
-
   return address;
 }
 
@@ -137,14 +138,14 @@ int translate(char* line){
     result = translate_LW(op[0],op[1],op[2]);
 
   }else if(!strncmp(line, "J", inst_len)){
-    char label_name[LENLABEL];
+    char label_name[LENLINE];
     strcpy(label_name, line+2);
-    result = translate_J(find_adress(label_name));
+    result = translate_J(find_address(label_name));
 
   }else if(!strncmp(line, "JAL", inst_len)){
-    char label_name[LENLABEL];
+    char label_name[LENLINE];
     strcpy(label_name, line+2);
-    result = translate_JAL(find_adress(label_name));
+    result = translate_JAL(find_address(label_name));
 
   }else if(!strncmp(line, "ADDIU", inst_len)){
     result = translate_ADDIU(op[0],op[1],op[2]);
@@ -223,8 +224,8 @@ int translate_direct(int special, int r0, int r1, int r2, int r3, int code){
   return (special << 26) + (r0 << 21) + (r1 << 16) + (r2 << 11) + (r3 << 6)  + code;
 }
 
-int translate_jump(int code, int adress){
-  return (code << 26) + adress;
+int translate_jump(int code, int address){
+  return (code << 26) + address;
 }
 
 /*--------- DIRECT ---------*/
