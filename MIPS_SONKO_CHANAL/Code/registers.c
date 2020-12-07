@@ -196,11 +196,18 @@ int exec_DIV(int instruction){
 
 int exec_J(int instruction){
   int line = (instruction & create_mask(0,25));
+
   *pc = line;
   return 0;
 }
 
-int exec_JAL(int instruction){return 0;}
+int exec_JAL(int instruction){
+  int line = (instruction & create_mask(0,25));
+
+  registers[31] = *pc + 8;
+  *pc = line;
+  return 0;
+}
 
 
 int exec_JR(int instruction){

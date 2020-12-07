@@ -79,6 +79,16 @@ int translate(char* line){
   }else if(!strncmp(line, "AND", inst_len)){
     result = translate_AND(op[0],op[1],op[2]);
 
+  }else if(!strncmp(line, "J", inst_len)){
+    char label_name[LENLINE];
+    strcpy(label_name, line+2);
+    result = translate_J(find_address(label_name));
+
+  }else if(!strncmp(line, "JAL", inst_len)){
+    char label_name[LENLINE];
+    strcpy(label_name, line+4);
+    result = translate_JAL(find_address(label_name));
+
   }else if(!strncmp(line, "JR", inst_len)){
     result = translate_JR(op[0],0);
 
@@ -138,16 +148,6 @@ int translate(char* line){
 
   }else if(!strncmp(line, "LW", inst_len)){
     result = translate_LW(op[0],op[1],op[2]);
-
-  }else if(!strncmp(line, "J", inst_len)){
-    char label_name[LENLINE];
-    strcpy(label_name, line+2);
-    result = translate_J(find_address(label_name));
-
-  }else if(!strncmp(line, "JAL", inst_len)){
-    char label_name[LENLINE];
-    strcpy(label_name, line+4);
-    result = translate_JAL(find_address(label_name));
 
   }else if(!strncmp(line, "ADDIU", inst_len)){
     result = translate_ADDIU(op[0],op[1],op[2]);
@@ -226,7 +226,7 @@ int translate_direct(int special, int r0, int r1, int r2, int r3, int code){
   return (special << 26) + (r0 << 21) + (r1 << 16) + (r2 << 11) + (r3 << 6)  + code;
 }
 
-int translate_jump(int code, int address){
+int translate_jump(int code, unsigned int address){
   return (code << 26) + address;
 }
 

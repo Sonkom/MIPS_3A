@@ -183,6 +183,12 @@ void instruct_execute_pointer(char *line, int (**exec)(int)){
   }else if(!strncmp(line, "AND", inst_len)){
     *exec = &exec_AND;
 
+  }else if(!strncmp(line, "J", inst_len)){
+    *exec = &exec_J;
+
+  }else if(!strncmp(line, "JAL", inst_len)){
+    *exec = &exec_JAL;
+
   }else if(!strncmp(line, "JR", inst_len)){
     *exec = &exec_JR;
 
@@ -242,12 +248,6 @@ void instruct_execute_pointer(char *line, int (**exec)(int)){
 
   }else if(!strncmp(line, "LW", inst_len)){
     *exec = &exec_LW;
-
-  }else if(!strncmp(line, "J", inst_len)){
-    *exec = &exec_J;
-
-  }else if(!strncmp(line, "JAL", inst_len)){
-    *exec = &exec_JAL;
 
   }else if(!strncmp(line, "ADDIU", inst_len)){
     *exec = &exec_ADDIU;

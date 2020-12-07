@@ -31,7 +31,7 @@ int translate_immediat(int code, int r0, int r1, int imm);
 
 int translate_direct(int special, int r0, int r1, int r2, int r3, int code);
 
-int translate_jump(int code, int adress);
+int translate_jump(int code, unsigned int adress);
 
 /*--------- DIRECT ---------*/
 int translate_ADD(int rd, int rs, int rt);
