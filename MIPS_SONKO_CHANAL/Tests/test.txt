@@ -1,0 +1,7 @@
+ADDI $8,$0,0
+ADDI $9,$0,4
+LOOP:
+ADDI $8,$8,1
+BEQ $8,$9,2
+J LOOP
+ADDI $10,$0,1
