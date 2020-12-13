@@ -1,11 +1,13 @@
 ADDI $8,$0,-1
 ADDI $9,$0,5
+ADDI $9,$9,-1
+BNE $9,$8,-2
 ADDI $10,$0,3
 ADDI $11,$0,0
 
+_label1:
+label2:
 ADD $11,$10,$11
-label:
 ADDI $8,$8,1
-BEQ $9,$8,2
-JAL label
+JAL label2
 NOP

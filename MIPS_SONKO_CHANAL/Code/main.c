@@ -31,10 +31,10 @@ int main(int argc, char *argv[]) {
 
       printf("\nSource file : %s\nThe output will be written in : %s\n\n",name_source, name_result);
 
+      if (step_to_step_mode) printf("--- Please note that instructions with labels will have their correct hexadecimal traduction after the program is fully read.\n");
       read_file(name_source, prog, step_to_step_mode);
 
-      //translate_to_hexa(prog);
-      execution_pointer_setup(prog);
+      translate_to_hexa(prog);
 
       write_file(name_result, prog);
 
@@ -60,8 +60,8 @@ int main(int argc, char *argv[]) {
   }
   else {
     printf("\n---- You are in the interactive mode of the MIPS emulator.");
-    printf("\n---- If you want to use a program file, please exit and use './emul-mips your_file -pas (optionnal)'\n");
-    printf("---- Please note that your file should be in the 'tests' directory.\n");
+    printf("\n---- If you want to use a program file, please exit and use './emul-mips your_file -pas (optionnal)'");
+    printf("\n---- Please note that your file should be in the 'tests' directory.\n");
 
     init_registers();
     init_data_memory();

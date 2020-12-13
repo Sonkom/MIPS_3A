@@ -2,6 +2,8 @@
 
 #include "translation.h"
 
+/*--------- LABEL ---------*/
+
 void init_label_list(void){
   label_list = NULL;
 }
@@ -36,13 +38,13 @@ unsigned int find_address(char label_name[LENLINE]){
     while(current_label != NULL && strcmp(label_name, current_label->label_name) != 0){
       current_label = current_label->next;
     }
-    if(current_label == NULL)printf("LABEL UNKNOWN\n");
-    else address = current_label->address;
+    if(current_label != NULL) address = current_label->address;
   }
 
   return address;
 }
 
+/*--------- TRADUCTION ---------*/
 
 int translate(char* line){
   int result,inst_len,i=0,j=0,end_op;
@@ -217,6 +219,7 @@ int translate(char* line){
   return result;
 }
 
+/*--------- GENERAL ---------*/
 
 int translate_immediat(int code, int r0, int r1, int imm){
   return (code << 26) + (r0 << 21) + (r1 << 16) + (imm & 0x0000FFFF);
@@ -292,6 +295,7 @@ int translate_XOR(int rd, int rs, int rt){
 }
 
 /*--------- IMMÉDIAT ---------*/
+
 int translate_ADDI(int rt, int rs, int imm){
   return translate_immediat(0b001000, rs, rt, imm);
 }
@@ -325,6 +329,7 @@ int translate_LW(int rt, int offset, int base){
 }
 
 /*--------- JUMP ---------*/
+
 int translate_J(unsigned int instr_index){
   return translate_jump(0b000010, instr_index);
 }
@@ -334,6 +339,7 @@ int translate_JAL(unsigned int instr_index){
 }
 
 /*--------- OPT ---------*/
+
 int translate_ADDIU(int rt, int rs, int imm){
   return translate_immediat(0b001001,rs,rt,imm);
 }

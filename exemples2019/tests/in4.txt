@@ -2,7 +2,7 @@ ADDI $2,$0,5
    ADDI $3,$0,7
 
 # some comment
-SW $3,10($0)
+SW $3,12($0)
 
 LW $4,10($0) # some other comment
 

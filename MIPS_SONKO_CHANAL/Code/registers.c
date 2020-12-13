@@ -344,7 +344,7 @@ int exec_SUB(int instruction){
   int rs = (instruction & create_mask(21,25))>>21,
       rt = (instruction & create_mask(16,20))>>16,
       rd = (instruction & create_mask(11,15))>>11;
-      printf("%d - %d\n", read_register(rs) , read_register(rt));
+      //printf("%d - %d\n", read_register(rs) , read_register(rt));
 
   /* ===== Tests Erreurs ==== */
 

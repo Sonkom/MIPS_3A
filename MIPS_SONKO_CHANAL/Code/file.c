@@ -22,7 +22,6 @@ instruction* add_instruct(program prog) {
     instruct = (instruction *)malloc(sizeof(instruction));
     instruct->next = NULL;
 
-    while (last->next != NULL) last = last->next;
     last->next = instruct;
     instruct->prev = last;
   }
@@ -30,19 +29,19 @@ instruction* add_instruct(program prog) {
 }
 
 void free_prog(program prog){
-  program buffer1 = prog, buffer2 = NULL;
+  program buffer = prog, delete = NULL;
 
-  while (buffer1 != NULL){
-    buffer2 = buffer1;
-    buffer1 = buffer1->next;
-    free(buffer2);
+  while (buffer != NULL){
+    delete = buffer;
+    buffer = buffer->next;
+    free(delete);
   }
 }
 
 void print_prog(program prog) {
   program prog_printer = prog->next;
 
-  printf("*** Prrogram loaded - Ready to be executed ***\n\n");
+  printf("*** Program loaded - Ready to be executed ***\n\n");
   while(prog_printer != NULL) {
     printf("      %.8x %.8x : { %s }\n",prog_printer->address, prog_printer->line_hexa ,prog_printer->line);
     prog_printer = prog_printer->next;
@@ -66,24 +65,22 @@ void read_file(char* name_source, program prog, char step_to_step_mode){
     perror("File reading problem");
     exit(1);
   }
-
+  /* lecture du fichier source */
   while (!feof(file_source) && overflow_check) {
 
-    fscanf(file_source, "%c", &character);
+    character = fgetc(file_source);
 
     if(character != '\n' && character != '\r' && character != ':'){
 
       if (character == '#') is_comment = 1;
-      if (!is_comment && (!((index == 0) && (character == ' '))))
+      if (!is_comment && (!((index == 0) && (character == ' ')))) /* Si la ligne n'est pas un commentaire et que le 1er caractère lu n'est pas un espace. */
         {
-          if (instruct == NULL){
-          }
           read_line[index] = character;
           index++;
         }
 
     } else {
-        if (read_line != NULL) read_line[index] = '\0';
+        read_line[index] = '\0';
         is_comment = 0;
 
         if (character == ':') {
@@ -110,6 +107,7 @@ void read_file(char* name_source, program prog, char step_to_step_mode){
             else instruct->address = instruct_address;
             instruct->line_hexa = translate(read_line);
             strcpy(instruct->line, read_line);
+            instruct_execute_pointer(read_line, &(instruct->exec));
             instruct_address+=4;
             data_counter+=4;
 
@@ -117,14 +115,20 @@ void read_file(char* name_source, program prog, char step_to_step_mode){
               input = '\0';
               printf("\nAssembling line n°%d\n %s { hexadecimal instruction code : %.8x }\n",(instruct->address)/4,instruct->line,instruct->line_hexa);
               printf("\n--- Press [enter] to continue or [s] if you want to skip to the start of the execution\n");
-              scanf("%c",&input);
-              if (input == 's') skip = 1;
+              fflush(stdin);
+              input = fgetc(stdin);
+              if (input == 's'){
+                skip = 1;
+                input = fgetc(stdin); //Pour enlever l'input "entrée" qui est tout de même détecter
+              }
+
             }
             instruct = NULL;
           }
         }
     }
   }
+
   fclose(file_source);
 }
 
@@ -147,23 +151,14 @@ void write_file(char* name_result, program prog){
   fclose(file_result);
 }
 
-/*---- TRADUCTION HEXA + EXECUTION PROGRAMME ----*/
+/* ------ TRADUCTION + EXECUTION PROGRAMME ------ */
 
-/*void translate_to_hexa(program prog){
+void translate_to_hexa(program prog){
   instruction* translater = prog->next;
 
   while(translater != NULL) {
     translater->line_hexa = translate(translater->line);
     translater = translater->next;
-  }
-}*/
-
-void execution_pointer_setup(program prog){
-  instruction* setup_pointer = prog->next;
-
-  while(setup_pointer != NULL) {
-    instruct_execute_pointer(setup_pointer->line, &(setup_pointer->exec));
-    setup_pointer = setup_pointer->next;
   }
 }
 
@@ -338,7 +333,9 @@ void execution(program prog, char step_to_step_mode){
       input = '\0';
       printf(" --- [r] : display registers; [m] : display memory; [n] : display next instruction; [c] : continue\n");
       while (input != 'c'){
-        scanf("%c",&input);
+        fflush(stdin);
+        input = fgetc(stdin);
+        fflush(stdin);
         switch(input) {
           case 'r' :
             print_registers();
@@ -353,9 +350,7 @@ void execution(program prog, char step_to_step_mode){
         }
       }
     }
-
   }
-
 }
 
 void interactive_mode(void){

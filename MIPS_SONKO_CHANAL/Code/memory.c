@@ -92,29 +92,6 @@ char write_data(unsigned int address, int data) {
   /* Ecriture en mémoire */
   if (writer != NULL) next_buffer = writer->next;
 
-  /*for (unsigned int index = 0; (index < 4) && overflow_check; index++){
-    if (writer == NULL) {
-      writer = add_cell(address+index, data_bytes[index]);
-      if (writer != NULL) writer = writer->next;
-      else overflow_check = 0;
-      prev_buffer->next = writer;
-    } else if (writer->address == address+index) {
-      writer->data = data_bytes[index];
-      prev_buffer = writer;
-      writer = writer->next;
-      if (buffer != NULL) buffer = buffer->next;
-    } else {
-      writer->next = add_cell(address+index, data_bytes[index]);
-      if (writer->next != NULL) {
-        prev_buffer = writer;
-        writer = writer->next;
-        writer->next = buffer;
-      }
-      else overflow_check = 0;
-      if (buffer != NULL) buffer = buffer->next;
-    }
-  }*/
-
   for (int index = 0; (index < 4) && overflow_check; index++){
     if ((writer != NULL) && (writer->address == address + index)) {
       writer->data = data_bytes[index];

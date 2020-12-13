@@ -31,13 +31,11 @@ void read_file(char* name_source, program prog, char step_to_step_mode); //Fonct
 
 void write_file(char* name_result, program prog); //Fonction qui écrit le résultat en hexadécimal de le fichier destination
 
-/*---- TRADUCTION HEXA + EXECUTION PROGRAMME ----*/
+/* ------ TRADUCTION + EXECUTION PROGRAMME ------ */
 
-//void translate_to_hexa(program prog); //Fonction qui traduit chaque ligne en son code hexadécimal et la met dans la liste chaînée (dans le champ line_hexa)
+void translate_to_hexa(program prog); //Fonction qui traduit chaque ligne en son code hexadécimal et la met dans la liste chaînée (dans le champ line_hexa)
 
 void instruct_execute_pointer(char *line, int (**exec)(int)); //Fonction qui modifie le pointeur de fonction de telle sorte qu'elle pointe vers la fonction correspondante
-
-void execution_pointer_setup(program prog); //Fonction qui setup les pointeurs de fonction pour chaque instruction
 
 void execution(program prog, char step_to_step_mode); //Execute l'ensemble des instructions d'un programme
 

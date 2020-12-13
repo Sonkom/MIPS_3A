@@ -3,9 +3,9 @@
 #include "memory.h"
 
 #define NBR_REGISTERS 35
-#define MAX_SIGNED_INT 0x7FFFFFFF
-#define MIN_SIGNED_INT 0x80000000
-#define MAX_UNSIGNED_INT 0xFFFFFFFF
+#define MAX_SIGNED_INT 32767
+#define MIN_SIGNED_INT -32768
+#define MAX_UNSIGNED_INT 65535
 
 char* registers_name[NBR_REGISTERS];
 int registers[NBR_REGISTERS]; /* Tableau des registres : de $0 à $31 + hi, lo et pc respectivement à 33, 34 et 35;*/
