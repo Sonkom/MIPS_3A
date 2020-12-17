@@ -3,6 +3,7 @@
 #include "function.h"
 
 int str_to_int(char* str, int d, int f){
+  printf("%s  %d  %d\n", str,d,f);
   int power = 1, success = 1, result = 0, sign = 1;
   if(f<d){
     printf("ERREUR : Indice incohérent\n");
@@ -19,7 +20,7 @@ int str_to_int(char* str, int d, int f){
       result += power * ( (*(str+i)) - '0');
       power *= 10;
       if(*(str+i)-'0' < 0 || *(str+i)-'9' > 9){
-        printf("ERREUR : Impossible de convertir en entier : Caractère \n");
+        printf("ERREUR : Impossible de convertir en entier\n");
         success = -1;
       }
     }

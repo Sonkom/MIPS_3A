@@ -250,9 +250,6 @@ void instruct_execute_pointer(char *line, int (**exec)(int)){
   }else if(!strncmp(line, "ADDU", inst_len)){
     *exec = &exec_ADDU;
 
-  }else if(!strncmp(line, "ANDI", inst_len)){
-    *exec = &exec_ANDI;
-
   }else if(!strncmp(line, "BGEZ", inst_len)){
     *exec = &exec_BGEZ;
 
@@ -265,44 +262,11 @@ void instruct_execute_pointer(char *line, int (**exec)(int)){
   }else if(!strncmp(line, "BLTZAL", inst_len)){
     *exec = &exec_BLTZAL;
 
-  }else if(!strncmp(line, "DIVU", inst_len)){
-    *exec = &exec_DIVU;
-
-  }else if(!strncmp(line, "LB", inst_len)){
-    *exec = &exec_LB;
-
-  }else if(!strncmp(line, "MULTU", inst_len)){
-    *exec = &exec_MULTU;
-
-  }else if(!strncmp(line, "ORI", inst_len)){
-    *exec = &exec_ORI;
-
-  }else if(!strncmp(line, "SB", inst_len)){
-    *exec = &exec_SB;
-
-  }else if(!strncmp(line, "SLLV", inst_len)){
-    *exec = &exec_SLLV;
-
-  }else if(!strncmp(line, "SLTI", inst_len)){
-    *exec = &exec_SLTI;
-
-  }else if(!strncmp(line, "SLTIU", inst_len)){
-    *exec = &exec_SLTIU;
-
-  }else if(!strncmp(line, "SLTU", inst_len)){
-    *exec = &exec_SLTU;
-
-  }else if(!strncmp(line, "SRA", inst_len)){
-    *exec = &exec_SRA;
-
-  }else if(!strncmp(line, "SRLV", inst_len)){
-    *exec = &exec_SRLV;
-
   }else if(!strncmp(line, "SUBU", inst_len)){
     *exec = &exec_SUBU;
 
-  }else if(!strncmp(line, "XORI", inst_len)){
-    *exec = &exec_XORI;
+  }else if(!strncmp(line, "SYSCALL", inst_len)){
+    *exec = &exec_SYSCALL;
 
   }else{
     printf("ERREUR : Opération inconnu\n");

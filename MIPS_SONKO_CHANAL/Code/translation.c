@@ -419,3 +419,8 @@ int translate_SUBU(int rd, int rs, int rt){
 int translate_XORI(int rt, int rs, int imm){
   return translate_immediat(0b001110,rs,rt,imm);
 }
+
+/* --------- SYSCALL --------- */
+int translate_SYSCALL(){
+  return 0b110;
+}

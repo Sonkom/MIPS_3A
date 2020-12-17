@@ -344,7 +344,6 @@ int exec_SUB(int instruction){
   int rs = (instruction & create_mask(21,25))>>21,
       rt = (instruction & create_mask(16,20))>>16,
       rd = (instruction & create_mask(11,15))>>11;
-      //printf("%d - %d\n", read_register(rs) , read_register(rt));
 
   /* ===== Tests Erreurs ==== */
 
@@ -397,23 +396,111 @@ int exec_XOR(int instruction){
 }
 
 
-int exec_ADDIU(int instruction){return 0;}
-int exec_ADDU(int instruction){return 0;}
-int exec_ANDI(int instruction){return 0;}
-int exec_BGEZ(int instruction){return 0;}
-int exec_BGEZAL(int instruction){return 0;}
-int exec_BLTZ(int instruction){return 0;}
-int exec_BLTZAL(int instruction){return 0;}
-int exec_DIVU(int instruction){return 0;}
-int exec_LB(int instruction){return 0;}
-int exec_MULTU(int instruction){return 0;}
-int exec_ORI(int instruction){return 0;}
-int exec_SB(int instruction){return 0;}
-int exec_SLLV(int instruction){return 0;}
-int exec_SLTI(int instruction){return 0;}
-int exec_SLTIU(int instruction){return 0;}
-int exec_SLTU(int instruction){return 0;}
-int exec_SRA(int instruction){return 0;}
-int exec_SRLV(int instruction){return 0;}
-int exec_SUBU(int instruction){return 0;}
-int exec_XORI(int instruction){return 0;}
+//Les instructions finnissant par U sont les instructions qui ne retournent plus aucune erreur même en cas d'overflow
+int exec_ADDIU(int instruction){
+  int rs = (instruction & create_mask(21,25))>>21,
+      rt = (instruction & create_mask(16,20))>>16,
+      imm = instruction & create_mask(0,15);
+
+  if(imm & create_mask(15,15)) imm = imm | create_mask(16,31); // Valeur négative sur 16 bits transformée en valeur négative sur 32 bits
+
+  write_register(rt , read_register(rs)+imm);
+  *pc += 4;
+
+  return 0;
+}
+
+int exec_ADDU(int instruction){
+  int rs = (instruction & create_mask(21,25))>>21,
+      rt = (instruction & create_mask(16,20))>>16,
+      rd = (instruction & create_mask(11,15))>>11;
+
+
+  write_register(rd, read_register(rs) + read_register(rt));
+  *pc += 4;
+
+  return 0;
+}
+
+int exec_SUBU(int instruction){
+  int rs = (instruction & create_mask(21,25))>>21,
+      rt = (instruction & create_mask(16,20))>>16,
+      rd = (instruction & create_mask(11,15))>>11;
+
+  write_register(rd, read_register(rs) - read_register(rt));
+  *pc += 4;
+
+  return 0;
+}
+
+int exec_BGEZ(int instruction){
+  int rs = (instruction & create_mask(21,25))>>21,
+      offset = instruction & create_mask(0,15);
+
+  if(offset & create_mask(15,15)) offset = offset | create_mask(16,31); // Valeur négative sur 16 bits transformée en valeur négative sur 32 bits
+
+  if(read_register(rs)>=0){
+    *pc += offset << 2;
+  }else{
+    *pc += 4;
+  }
+
+  return 0;
+}
+
+int exec_BGEZAL(int instruction){
+  int rs = (instruction & create_mask(21,25))>>21,
+      offset = instruction & create_mask(0,15);
+
+  if(offset & create_mask(15,15)) offset = offset | create_mask(16,31); // Valeur négative sur 16 bits transformée en valeur négative sur 32 bits
+
+  if(read_register(rs)>=0){
+    *pc += offset << 2;
+  }else{
+    *pc += 4;
+  }
+
+  registers[31] = *pc + 4;
+
+  return 0;
+}
+
+int exec_BLTZ(int instruction){
+  int rs = (instruction & create_mask(21,25))>>21,
+      offset = instruction & create_mask(0,15);
+
+  if(offset & create_mask(15,15)) offset = offset | create_mask(16,31); // Valeur négative sur 16 bits transformée en valeur négative sur 32 bits
+
+  if(read_register(rs)<0){
+    *pc += offset << 2;
+  }else{
+    *pc += 4;
+  }
+
+  return 0;
+}
+
+int exec_BLTZAL(int instruction){
+  int rs = (instruction & create_mask(21,25))>>21,
+      offset = instruction & create_mask(0,15);
+
+  if(offset & create_mask(15,15)) offset = offset | create_mask(16,31); // Valeur négative sur 16 bits transformée en valeur négative sur 32 bits
+
+  if(read_register(rs)<0){
+    *pc += offset << 2;
+  }else{
+    *pc += 4;
+  }
+
+  registers[31] = *pc + 4;
+
+  return 0;
+}
+
+int exec_SYSCALL(int instruction){
+  printf("-----------------\nSYSTEM CALL\n-----------------\n");
+
+  *pc += 4;
+
+  return 0;
+}

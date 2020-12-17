@@ -61,21 +61,10 @@ int exec_JAL(int instruction);
 /*--------- OPT ---------*/
 int exec_ADDIU(int instruction);
 int exec_ADDU(int instruction);
-int exec_ANDI(int instruction);
 int exec_BGEZ(int instruction);
 int exec_BGEZAL(int instruction);
 int exec_BLTZ(int instruction);
 int exec_BLTZAL(int instruction);
-int exec_DIVU(int instruction);
-int exec_LB(int instruction);
-int exec_MULTU(int instruction);
-int exec_ORI(int instruction);
-int exec_SB(int instruction);
-int exec_SLLV(int instruction);
-int exec_SLTI(int instruction);
-int exec_SLTIU(int instruction);
-int exec_SLTU(int instruction);
-int exec_SRA(int instruction);
-int exec_SRLV(int instruction);
 int exec_SUBU(int instruction);
-int exec_XORI(int instruction);
+
+int exec_SYSCALL(int instruction);
