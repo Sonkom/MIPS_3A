@@ -1,16 +1,16 @@
-ADDI $8,$0,0
-ADDI $9,$0,4
-LOOP:
-ADDI $8,$8,1
-JAL FONC
+ADDI $8,$0,0      # x=0;
+ADDI $9,$0,4      # y=4;
+LOOP:             # while(x!=y){}
+ADDI $8,$8,1      #  x++;
+JAL FONC          #  fonc();
 NOP
 BEQ $8,$9,2
-J LOOP
+J LOOP            # }
 J END
 
-FONC:
-ADDI $10,$0,1
-ADD $11,$10,$9
-JR $31
+FONC:             # fonc(){
+ADDI $10,$0,1     #  t2=1;
+ADD $11,$10,$9    #  t3=t2+y;
+JR $31            # }
 END:
 NOP
