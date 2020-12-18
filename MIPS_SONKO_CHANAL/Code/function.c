@@ -3,7 +3,7 @@
 #include "function.h"
 
 int str_to_int(char* str, int d, int f){
-  printf("%s  %d  %d\n", str,d,f);
+  //printf("%s  %d  %d\n", str,d,f);
   int power = 1, success = 1, result = 0, sign = 1;
   if(f<d){
     printf("ERREUR : Indice incohérent\n");
@@ -64,4 +64,12 @@ int create_mask(int start, int end){
     for(int i=start;i<=end;i++) result += 1<<i;
   }
   return result;
+}
+
+void delete_end_spaces(char* sentence){
+  int index = strlen(sentence) - 1;
+  while ((*(sentence + index) == ' ') && index >= 0){
+    *(sentence+index) = '\0';
+    index--;
+  }
 }

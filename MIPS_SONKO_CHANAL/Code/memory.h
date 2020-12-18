@@ -26,7 +26,8 @@ void free_memory(void); //Libère la mémoire de donnée (en fin de programme)
 
 /*------ FONCTIONS POUR LA MÉMOIRE DE DONNÉES ------*/
 
-char write_data(unsigned int address, int data); //Écris dans la mémoire de donnée le mot "data" à la case mémoire d'adresse "address" (Instruction Store Word) (modèle big endian)
-/* Si la mémoire est pleine, on retourne une erreur */
+char write_data(unsigned int address, int data); /* Écris dans la mémoire de donnée le mot "data" à la case mémoire d'adresse "address" (Instruction Store Word) (modèle big endian) */
+/* Si la mémoire est pleine, on retourne une erreur.
+L'adresse donnée en entrée n'est pas nécessairement un multiple de 4. La gestion de cette erreur est fait directement dans la fonction exec_SW() dans registers.c */
 
 int read_data(unsigned int address); //Lis le mot présent à la case mémoire d'adresse "address"

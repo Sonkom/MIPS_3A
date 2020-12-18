@@ -105,6 +105,7 @@ void read_file(char* name_source, program prog, char step_to_step_mode){
             instruct = add_instruct(prog);
             if (instruct == NULL) overflow_check = 0;
             else instruct->address = instruct_address;
+            delete_end_spaces(read_line);
             instruct->line_hexa = translate(read_line);
             strcpy(instruct->line, read_line);
             instruct_execute_pointer(read_line, &(instruct->exec));
