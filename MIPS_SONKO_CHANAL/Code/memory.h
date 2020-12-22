@@ -12,7 +12,7 @@ struct cell {
 
 cell* data_memory;
 
-unsigned int data_counter;
+long data_counter;
 
 /*------ FONCTIONS DE GESTION DE LA LISTE CHAÎNÉE ------*/
 

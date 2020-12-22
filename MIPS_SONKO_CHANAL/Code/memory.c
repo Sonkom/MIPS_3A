@@ -13,7 +13,7 @@ void init_data_memory(void){
 
 cell* add_cell(int address, char data){
   cell * new_cell = NULL;
-  if (data_counter == 0xFFFFFFFF) printf("ERROR : The memory's capacity has reached its limits\n");
+  if (data_counter >= 0x100000000) printf("ERROR : The memory's capacity has reached its limits\n");
   else {
     new_cell = (cell *)malloc(sizeof(cell));
     new_cell->address = address;
@@ -36,7 +36,7 @@ void print_memory(void){
     memory_printer = memory_printer->next;
   }
   printf("\n");
-  printf("\nData quantity used : %d bytes\n",data_counter);
+  printf("\nData quantity used : %ld bytes\n",data_counter);
 }
 
 void free_memory(void){
