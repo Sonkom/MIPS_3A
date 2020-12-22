@@ -55,6 +55,7 @@ int main(int argc, char *argv[]) {
 
 
       free_memory();
+      free_label();
       free_prog(prog);
     }
   }

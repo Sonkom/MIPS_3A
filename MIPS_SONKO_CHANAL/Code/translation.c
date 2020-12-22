@@ -22,7 +22,7 @@ label* add_label(void){
 }
 
 void free_label(void){
-  label* buffer = label_list, *delete;
+  label* buffer = label_list, *delete = NULL;
   while (delete != NULL){
     delete = buffer;
     buffer = buffer->next;
