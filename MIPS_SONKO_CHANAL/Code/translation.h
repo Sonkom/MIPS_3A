@@ -86,4 +86,5 @@ int translate_SRLV(int rd, int rt, int rs);
 int translate_SUBU(int rd, int rs, int rt);
 int translate_XORI(int rt, int rs, int imm);
 
+/*------- SYSCALL --------*/
 int translate_SYSCALL();
